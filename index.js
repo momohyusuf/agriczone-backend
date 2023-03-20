@@ -16,7 +16,7 @@ const errorHandlerMiddleware = require('./middlewares/errorHandler');
 app.use(function (req, res, next) {
   res.setHeader(
     'Access-Control-Allow-Origin',
-    'https://agriczone-szda.vercel.app/'
+    'https://agriczone-szda.vercel.app'
   );
   res.setHeader(
     'Access-Control-Allow-Methods',
