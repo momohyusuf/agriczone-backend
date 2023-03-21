@@ -124,7 +124,37 @@ const deleteEducation = async (req, res) => {
   res.status(StatusCodes.OK).json({ message: 'Deleted successfully' });
 };
 // ***********************
-// *
+// ***********************
+
+const updateCertificateAndLicense = async (req, res) => {
+  const userId = req.user._id;
+  const user = await AgroExpert.findOne({ _id: userId });
+  const { name, issuingOrganization, credentialUrl, issuedDate } = req.body;
+
+  if (!user) {
+    throw new UnAuthenticatedError('Invalid credentials');
+  }
+  user.certificateAndLicense.push({
+    name,
+    issuingOrganization,
+    credentialUrl,
+    issuedDate,
+  });
+  await user.save();
+  res.status(StatusCodes.OK).json({ message: 'Account successfully updated' });
+};
+
+const deleteCertificateAndLicenses = async (req, res) => {
+  const userId = req.user._id;
+  const { certificateAndLicenseId } = req.query;
+
+  const user = await AgroExpert.updateOne(
+    { _id: userId }, // Specify the document to update
+    { $pull: { certificateAndLicense: { _id: certificateAndLicenseId } } }
+  );
+
+  res.status(StatusCodes.OK).json({ message: 'deleted successfully' });
+};
 
 module.exports = {
   singleAgroExpertUser,
@@ -134,4 +164,6 @@ module.exports = {
   deleteJobExperience,
   updateEducation,
   deleteEducation,
+  updateCertificateAndLicense,
+  deleteCertificateAndLicenses,
 };

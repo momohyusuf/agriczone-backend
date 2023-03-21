@@ -1,4 +1,5 @@
 const express = require('express');
+// agro expert user
 const {
   singleAgroExpertUser,
   updateUserCoverImage,
@@ -7,12 +8,20 @@ const {
   deleteJobExperience,
   updateEducation,
   deleteEducation,
+  updateCertificateAndLicense,
+  deleteCertificateAndLicenses,
 } = require('../controllers/users/agroExpertUsers');
+// agro trader
+const {
+  singleAgroTraderUser,
+  updateAgroTraderUserCoverImage,
+  updateAgroTraderUserProfileBio,
+} = require('../controllers/users/agroTraderUsers');
 const authenticateUser = require('../middlewares/authenticateUser');
 const router = express.Router();
 
+// agro Expert user
 router.get('/agro-expert', singleAgroExpertUser);
-
 // update profile
 router.patch(
   '/profile-update/cover-image',
@@ -41,6 +50,32 @@ router.delete(
   '/profile-update/education-delete',
   authenticateUser,
   deleteEducation
+);
+
+router.patch(
+  '/profile-update/certificate-and-license',
+  authenticateUser,
+  updateCertificateAndLicense
+);
+router.delete(
+  '/profile-update/certificate-and-license-delete',
+  authenticateUser,
+  deleteCertificateAndLicenses
+);
+
+// agro trader user
+
+router.get('/agro-trader', singleAgroTraderUser);
+router.patch(
+  '/profile-update/agro-trader/cover-image',
+  authenticateUser,
+  updateAgroTraderUserCoverImage
+);
+
+router.patch(
+  '/profile-update/agro-trader-profile-bio',
+  authenticateUser,
+  updateAgroTraderUserProfileBio
 );
 
 module.exports = router;

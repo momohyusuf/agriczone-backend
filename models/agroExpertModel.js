@@ -105,6 +105,14 @@ const AgroExpertSchema = mongoose.Schema(
         endDate: String,
       },
     ],
+    certificateAndLicense: [
+      {
+        name: String,
+        issuingOrganization: String,
+        credentialUrl: String,
+        issuedDate: String,
+      },
+    ],
   },
   {
     timestamps: true,

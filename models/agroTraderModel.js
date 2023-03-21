@@ -3,6 +3,10 @@ const bcrypt = require('bcrypt');
 
 const AgroTraderSchema = mongoose.Schema(
   {
+    coverImage: {
+      type: String,
+      default: 'default-cover-image',
+    },
     firstName: {
       type: String,
       required: ['Provide your fast name', true],
