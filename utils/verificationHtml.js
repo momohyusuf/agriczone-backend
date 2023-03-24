@@ -1,10 +1,10 @@
-const verificationEmailTemplate = ({
+const verificationEmailTemplate = (
   firstName,
   lastName,
   origin,
   verificationToken,
-  email,
-}) => {
+  email
+) => {
   return `<!DOCTYPE html>
 <html>
   <head>
