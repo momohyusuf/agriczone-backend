@@ -40,7 +40,7 @@ const verificationEmailTemplate = (
     <p>If you did not create an account with us, please ignore this email.</p>
     <p>Thank you,</p>
     <img
-    src=https://res.cloudinary.com/starkweb/image/upload/v1677051239/agriczone/agric_zone_logo_uagtar.png" height=75px width=75px
+    src=https://res.cloudinary.com/starkweb/image/upload/v1677051239/agriczone/agric_zone_logo_uagtar.png height=75px width=75px
     />
     <p>The Agric zone Team</p>
   </body>
