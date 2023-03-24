@@ -1,4 +1,7 @@
 const express = require('express');
+const {
+  uploadProfilePicture,
+} = require('../controllers/file-upload/profilePicture');
 // agro expert user
 const {
   singleAgroExpertUser,
@@ -64,7 +67,6 @@ router.delete(
 );
 
 // agro trader user
-
 router.get('/agro-trader', singleAgroTraderUser);
 router.patch(
   '/profile-update/agro-trader/cover-image',
@@ -78,4 +80,10 @@ router.patch(
   updateAgroTraderUserProfileBio
 );
 
+// upload routes
+router.patch(
+  '/profile-update/profile-picture-upload',
+  authenticateUser,
+  uploadProfilePicture
+);
 module.exports = router;

@@ -11,18 +11,23 @@ const showCurrentUser = require('../controllers/auth/showCurrentUser');
 const logoutUser = require('../controllers/auth/logutUser');
 // *******************
 const authenticateUser = require('../middlewares/authenticateUser');
+const deleteUserAccount = require('../controllers/auth/deleteUserAccount');
 
+// routes
+router.get('/show-current-user', authenticateUser, showCurrentUser);
 // registration routes
+// *********
 router.post('/register-agro-expert', registerAgroExpert);
 router.post('/register-agro-trader', registerAgroTrader);
 // ***************
+// *****************************
 router.post('/verify-email', verifyEmail);
 router.post('/login', loginUser);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password', resetPassword);
+//*******************
 
-// router
-router.get('/show-current-user', authenticateUser, showCurrentUser);
+router.delete('/delete-user-account', authenticateUser, deleteUserAccount);
 router.delete('/logout-user', authenticateUser, logoutUser);
 
 module.exports = router;

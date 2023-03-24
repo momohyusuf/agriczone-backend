@@ -4,6 +4,7 @@ const BadRequestError = require('../../errors/badRequestError');
 const { StatusCodes } = require('http-status-codes');
 const sendEmail = require('../../utils/sendEmail');
 const generateToken = require('../../utils/generateToken');
+const verificationEmailTemplate = require('../../utils/verificationHtml');
 
 const registerAgroExpert = async (req, res) => {
   // extract the required values from the req.body for security purpose
@@ -63,18 +64,14 @@ const registerAgroExpert = async (req, res) => {
   });
 
   // verification email template
-  const html = `
-  <h4>Hello ${firstName + ' ' + lastName}</h4>
-  <p>
-  Thank you for registering to become part of Agric zone. <br/> Please verify your account
-  <a href=${origin}/verify/verify-email/?token=${verificationToken}&email=${email} target=_blank>Click here</a>
-  </p>
+  const html = verificationEmailTemplate(
+    firstName,
+    lastName,
+    origin,
+    verificationToken,
+    email
+  );
 
-  <div>
-  <img src="https://res.cloudinary.com/starkweb/image/upload/v1677051239/agriczone/agric_zone_logo_uagtar.png" height=100px width=100px />
-  </div>
-  
-  `;
   //
   // send verification email to the registered user email address
   await sendEmail(email, 'Email Verification', html);

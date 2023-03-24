@@ -31,7 +31,11 @@ const AgroExpertSchema = mongoose.Schema(
       type: String,
       required: ['please provide your phone number', true],
     },
-    profilePicture: String,
+    profilePicture: {
+      image: '',
+      public_id: '',
+      colors: [],
+    },
     email: {
       type: String,
       // unique: true,

@@ -9,7 +9,7 @@ const singleAgroTraderUser = async (req, res) => {
     throw new BadRequestError('user id is required');
   }
   const user = await AgroTrader.findOne({ _id: userId }).select(
-    '-password -acceptAgreement -isAccountBlocked -accountType -verificationToken'
+    '-password -acceptAgreement -isAccountBlocked -verificationToken'
   );
   res.status(StatusCodes.OK).json(user);
 };
