@@ -24,7 +24,7 @@ cloudinary.config({
 
 // middleware
 app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', 'https://agriczone.vercel.app');
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.setHeader(
     'Access-Control-Allow-Methods',
     'GET, POST, OPTIONS, PUT, PATCH, DELETE'
@@ -37,7 +37,7 @@ app.use(function (req, res, next) {
   next();
 });
 app.use(express.json());
-app.use(fileUpload({ useTempFiles: true }));
+app.use(fileUpload({ useTempFiles: true, tempFileDir: '/tmp/' }));
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(morgan('tiny'));
 
