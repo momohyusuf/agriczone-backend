@@ -8,12 +8,12 @@ const showCurrentUser = async (req, res) => {
     const agroExpertUser = await AgroExpert.findOne({ _id: userId }).select(
       'profileBio profilePicture firstName lastName _id accountType'
     );
-    return res.status(200).json({ user: agroExpertUser || agroTraderUser });
+    return res.status(200).json({ user: agroExpertUser });
   } else {
     const agroTraderUser = await AgroTrader.findOne({ _id: userId }).select(
       'profileBio profilePicture firstName lastName _id accountType'
     );
-    res.status(200).json({ user: agroExpertUser || agroTraderUser });
+    res.status(200).json({ user: agroTraderUser });
   }
 };
 
