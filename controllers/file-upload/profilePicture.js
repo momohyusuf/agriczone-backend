@@ -32,6 +32,11 @@ const uploadProfilePicture = async (req, res) => {
     use_filename: true,
     folder: 'agriczone-users',
     colors: true,
+    transformation: [
+      { fetch_format: 'webp' },
+      { gravity: 'auto:face', crop: 'fill' },
+      { height: 350, width: 350, crop: 'fit' },
+    ],
   });
 
   fs.unlinkSync(profilePicture.tempFilePath);
