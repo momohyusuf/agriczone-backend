@@ -30,10 +30,14 @@ const AgroTraderSchema = mongoose.Schema(
       type: String,
       required: ['please provide your phone number', true],
     },
-    profilePicture: String,
+    profilePicture: {
+      image: '',
+      public_id: '',
+      colors: [],
+    },
     email: {
       type: String,
-      // unique: true,
+      unique: true,
       required: ['Please provide your email address', true],
       match: [
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,

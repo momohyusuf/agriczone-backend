@@ -38,7 +38,7 @@ const AgroExpertSchema = mongoose.Schema(
     },
     email: {
       type: String,
-      // unique: true,
+      unique: true,
       required: ['Please provide your email address', true],
       match: [
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
