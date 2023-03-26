@@ -102,13 +102,12 @@ const logUserInBasedOnAccountType = async (
 
   refreshToken = generateToken();
   const userAgent = req.headers['user-agent'];
-  const platform = req.headers['sec-ch-ua-platform'];
+
   const ipAddress = req.ip;
 
   await tokenModel.create({
     refreshToken,
     userAgent,
-    platform,
     ipAddress,
     user: user._id,
   });
