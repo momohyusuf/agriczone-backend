@@ -10,7 +10,7 @@ const uploadProfilePicture = async (req, res) => {
   const { public_id } = req.query;
 
   // Step 1: check if the user already uploaded a picture to cloudinary already, if yes delete it so you can update to the current one, if you don't delete the old image it will only be eating up the cloud storage for no reason
-  if (public_id !== undefined) {
+  if (public_id) {
     await cloudinary.uploader.destroy(public_id);
   }
   const profilePicture = req.files.image;
@@ -30,13 +30,9 @@ const uploadProfilePicture = async (req, res) => {
   // step 2 upload the user new image  to cloudinary
   const result = await cloudinary.uploader.upload(profilePicture.tempFilePath, {
     use_filename: true,
-    folder: 'agriczone users',
+    folder: 'agriczone-users',
     colors: true,
   });
-
-  if (!result || !result.secure_url) {
-    throw new Error('Failed to upload image to Cloudinary');
-  }
 
   fs.unlinkSync(profilePicture.tempFilePath);
 
