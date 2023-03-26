@@ -34,6 +34,10 @@ const uploadProfilePicture = async (req, res) => {
     colors: true,
   });
 
+  if (!result || !result.secure_url) {
+    throw new Error('Failed to upload image to Cloudinary');
+  }
+
   fs.unlinkSync(profilePicture.tempFilePath);
 
   //Step 3: update the user database information with the new image
