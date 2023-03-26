@@ -10,7 +10,7 @@ const uploadProfilePicture = async (req, res) => {
   const { public_id } = req.query;
 
   // Step 1: check if the user already uploaded a picture to cloudinary already, if yes delete it so you can update to the current one, if you don't delete the old image it will only be eating up the cloud storage for no reason
-  if (public_id) {
+  if (public_id !== undefined) {
     await cloudinary.uploader.destroy(public_id);
   }
   const profilePicture = req.files.image;
