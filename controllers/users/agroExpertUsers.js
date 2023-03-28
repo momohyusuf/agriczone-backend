@@ -22,7 +22,7 @@ const updateUserCoverImage = async (req, res) => {
   }
   user.coverImage = req.body?.coverImage;
   await user.save();
-  res.status(StatusCodes.OK).json({ message: 'Account successfully updated' });
+  res.status(StatusCodes.OK).json({ message: 'Cover photo updated' });
 };
 
 //
@@ -41,7 +41,7 @@ const updateUserProfileBio = async (req, res) => {
   user.profileBio = profileBio;
   await user.save();
 
-  res.status(StatusCodes.OK).json({ message: 'Account successfully updated' });
+  res.status(StatusCodes.OK).json({ message: 'Profile bio updated' });
 };
 
 //
@@ -72,7 +72,7 @@ const updateUserJobExperience = async (req, res) => {
     jobDescription,
   });
   await user.save();
-  res.status(StatusCodes.OK).json({ message: 'Account successfully updated' });
+  res.status(StatusCodes.OK).json({ message: 'Job experience updated' });
 };
 
 // delete job experience
@@ -108,7 +108,7 @@ const updateEducation = async (req, res) => {
     endDate,
   });
   await user.save();
-  res.status(StatusCodes.OK).json({ message: 'Account successfully updated' });
+  res.status(StatusCodes.OK).json({ message: 'Education updated' });
 };
 
 // delete education
@@ -141,7 +141,9 @@ const updateCertificateAndLicense = async (req, res) => {
     issuedDate,
   });
   await user.save();
-  res.status(StatusCodes.OK).json({ message: 'Account successfully updated' });
+  res
+    .status(StatusCodes.OK)
+    .json({ message: 'License and certificate updated' });
 };
 
 const deleteCertificateAndLicenses = async (req, res) => {

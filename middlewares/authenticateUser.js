@@ -27,7 +27,6 @@ const authenticateUser = async (req, res, next) => {
     });
 
     if (!agroExpertToken && !agroTraderToken) {
-      console.log('validation error here');
       throw new UnAuthenticatedError('Authentication Invalid');
     }
     // ***************

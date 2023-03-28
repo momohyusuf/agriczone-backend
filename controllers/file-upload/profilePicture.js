@@ -7,11 +7,11 @@ const AgroExpert = require('../../models/agroExpertModel');
 
 const uploadProfilePicture = async (req, res) => {
   const userId = req.user._id;
-  const { public_id } = req.query;
+  const { publicId } = req.query;
 
   // Step 1: check if the user already uploaded a picture to cloudinary already, if yes delete it so you can update to the current one, if you don't delete the old image it will only be eating up the cloud storage for no reason
-  if (public_id) {
-    await cloudinary.uploader.destroy(public_id);
+  if (publicId) {
+    await cloudinary.uploader.destroy(publicId);
   }
   const profilePicture = req.files.image;
 
