@@ -13,6 +13,7 @@ const userRoutes = require('./routes/usersRoutes');
 const connectToDB = require('./database-connection/connectDB');
 const routeNotFoundError = require('./middlewares/routeNotFoundError');
 const errorHandlerMiddleware = require('./middlewares/errorHandler');
+const postRoutes = require('./routes/postRoutes');
 
 //Cloudinary Configuration
 cloudinary.config({
@@ -44,6 +45,7 @@ app.use(morgan('tiny'));
 app.get('/', (req, res) => res.send('Hello World!'));
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/user', userRoutes);
+app.use('/api/v1/post', postRoutes);
 
 // errors handler
 app.use(routeNotFoundError);

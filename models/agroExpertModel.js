@@ -32,7 +32,11 @@ const AgroExpertSchema = mongoose.Schema(
       required: ['please provide your phone number', true],
     },
     profilePicture: {
-      image: '',
+      image: {
+        type: String,
+        defaultValue:
+          'https://res.cloudinary.com/starkweb/image/upload/v1680256707/agriczone/No-picture_rnmppk.png',
+      },
       public_id: '',
       colors: [],
     },
