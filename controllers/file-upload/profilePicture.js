@@ -45,30 +45,37 @@ const uploadProfilePicture = async (req, res) => {
   //Step 3: update the user database information with the new image
   // update the user profile picture details to the uploaded picture
   if (req.user.accountType === 'AgroTrader') {
-    const userPost = await Post.find({ trader: userId });
-    userPost.profilePicture = result.secure_url;
     const user = await AgroTrader.findOne({ _id: userId });
+    await Post.updateMany(
+      { trader: userId },
+      {
+        $set: { profilePicture: result.secure_url },
+      }
+    );
     user.profilePicture = {
       image: result.secure_url,
       public_id: result.public_id,
       colors: result.colors,
     };
     await user.save();
-    await userPost.save();
     return res
       .status(StatusCodes.CREATED)
       .json({ message: 'Profile picture successfully updated' });
   } else {
     const user = await AgroExpert.findOne({ _id: userId });
-    const userPost = await Post.find({ expert: userId });
-    userPost.profilePicture = result.secure_url;
+    await Post.updateMany(
+      { expert: userId },
+      {
+        $set: { profilePicture: result.secure_url },
+      }
+    );
+
     user.profilePicture = {
       image: result.secure_url,
       public_id: result.public_id,
       colors: result.colors,
     };
     await user.save();
-    await userPost.save();
     return res
       .status(StatusCodes.CREATED)
       .json({ message: 'Profile picture successfully updated' });

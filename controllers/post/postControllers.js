@@ -15,7 +15,7 @@ const createPost = async (req, res) => {
   }
 
   const imageMaxSize = 5000000;
-  console.log('hi');
+
   if (req?.files?.image) {
     if (!req.files.image.mimetype.startsWith('image')) {
       throw new BadRequestError('Image file only');
@@ -36,7 +36,6 @@ const createPost = async (req, res) => {
     });
     fs.unlinkSync(req.files.image.tempFilePath);
   }
-  console.log('heloo');
   if (req.user.accountType === 'AgroExpert') {
     newPost = await Post.create({
       firstName,
@@ -63,9 +62,24 @@ const createPost = async (req, res) => {
 };
 
 const getAllPost = async (req, res) => {
-  const posts = await Post.find({}).sort({ createdAt: -1 });
+  // from chatGPT
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
 
-  res.status(StatusCodes.OK).json(posts);
+  const posts = await Post.find({})
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit);
+
+  const totalCount = await Post.countDocuments();
+
+  const hasMore = totalCount > page * limit;
+
+  res.status(StatusCodes.OK).json({
+    posts,
+    hasMore,
+  });
 };
 
 module.exports = {
