@@ -13,18 +13,21 @@ const {
   deleteEducation,
   updateCertificateAndLicense,
   deleteCertificateAndLicenses,
+  allAgroExpertUser,
 } = require('../controllers/users/agroExpertUsers');
 // agro trader
 const {
   singleAgroTraderUser,
   updateAgroTraderUserCoverImage,
   updateAgroTraderUserProfileBio,
+  allAgroTraderUsers,
 } = require('../controllers/users/agroTraderUsers');
 const authenticateUser = require('../middlewares/authenticateUser');
 const router = express.Router();
 
 // agro Expert user
 router.get('/agro-expert', singleAgroExpertUser);
+router.get('/agro-expert-users', allAgroExpertUser);
 // update profile
 router.patch(
   '/profile-update/cover-image',
@@ -68,6 +71,7 @@ router.delete(
 
 // agro trader user
 router.get('/agro-trader', singleAgroTraderUser);
+router.get('/agro-trader-users', allAgroTraderUsers);
 router.patch(
   '/profile-update/agro-trader/cover-image',
   authenticateUser,

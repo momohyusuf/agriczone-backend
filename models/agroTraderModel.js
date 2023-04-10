@@ -34,7 +34,7 @@ const AgroTraderSchema = mongoose.Schema(
       image: {
         type: String,
         defaultValue:
-          'https://res.cloudinary.com/starkweb/image/upload/v1680256707/agriczone/No-picture_rnmppk.png',
+          'https://res.cloudinary.com/starkweb/image/upload/v1681074042/agriczone/no-profile-picture_r1k66b.jpg',
       },
       public_id: '',
       colors: [],

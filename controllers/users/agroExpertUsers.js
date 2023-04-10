@@ -3,6 +3,8 @@ const UnAuthenticatedError = require('../../errors/unAuthenticatedError');
 const { StatusCodes } = require('http-status-codes');
 const AgroExpert = require('../../models/agroExpertModel');
 
+// ***************
+// **************
 const singleAgroExpertUser = async (req, res) => {
   const { userId } = req.query;
   if (!userId) {
@@ -12,6 +14,29 @@ const singleAgroExpertUser = async (req, res) => {
     '-password -acceptAgreement -isAccountBlocked -verificationToken'
   );
   res.status(StatusCodes.OK).json(user);
+};
+// ******************
+// ******************
+
+const allAgroExpertUser = async (req, res) => {
+  // from chatGPT
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 15;
+  const skip = (page - 1) * limit;
+
+  const users = await AgroExpert.find({ userVerified: true })
+    .select(
+      'coverImage field firstName lastName profileBio profilePicture state accountType'
+    )
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit);
+
+  const totalCount = await AgroExpert.countDocuments({ userVerified: true });
+
+  const hasMore = totalCount > page * limit;
+
+  res.status(StatusCodes.OK).json({ users, hasMore });
 };
 
 const updateUserCoverImage = async (req, res) => {
@@ -160,6 +185,7 @@ const deleteCertificateAndLicenses = async (req, res) => {
 
 module.exports = {
   singleAgroExpertUser,
+  allAgroExpertUser,
   updateUserCoverImage,
   updateUserProfileBio,
   updateUserJobExperience,

@@ -13,6 +13,26 @@ const singleAgroTraderUser = async (req, res) => {
   );
   res.status(StatusCodes.OK).json(user);
 };
+const allAgroTraderUsers = async (req, res) => {
+  // from chatGPT
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 15;
+  const skip = (page - 1) * limit;
+
+  const users = await AgroTrader.find({ userVerified: true })
+    .select(
+      'coverImage firstName lastName profilePicture state agriculturalProducts accountType'
+    )
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit);
+
+  const totalCount = await AgroTrader.countDocuments({ userVerified: true });
+
+  const hasMore = totalCount > page * limit;
+
+  res.status(StatusCodes.OK).json({ users, hasMore });
+};
 
 const updateAgroTraderUserCoverImage = async (req, res) => {
   const userId = req.user._id;
@@ -53,6 +73,7 @@ const updateAgroTraderUserProfileBio = async (req, res) => {
 
 module.exports = {
   singleAgroTraderUser,
+  allAgroTraderUsers,
   updateAgroTraderUserCoverImage,
   updateAgroTraderUserProfileBio,
 };

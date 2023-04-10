@@ -1,12 +1,12 @@
 const { StatusCodes } = require('http-status-codes');
 const Post = require('../../models/postsModel');
-const cloudinary = require('cloudinary');
+const AgroExpert = require('../../models/agroExpertModel');
+const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
 
 const createPost = async (req, res) => {
   const post = req.body.text;
-  const { firstName, lastName, profilePicture } = req.body;
-
+  const { firstName, lastName, profilePicture, accountType } = req.body;
   let newPost;
   let result;
 
@@ -31,7 +31,7 @@ const createPost = async (req, res) => {
       transformation: [
         { fetch_format: 'webp' },
         { gravity: 'auto:face', crop: 'fill' },
-        { height: 350, width: 350, crop: 'fit' },
+        { height: 400, width: 400, crop: 'fit' },
       ],
     });
     fs.unlinkSync(req.files.image.tempFilePath);
@@ -41,6 +41,7 @@ const createPost = async (req, res) => {
       firstName,
       lastName,
       profilePicture,
+      accountType,
       post: post,
       image: result?.secure_url,
       public_id: result?.public_id,
@@ -51,6 +52,7 @@ const createPost = async (req, res) => {
       firstName,
       lastName,
       profilePicture,
+      accountType,
       post: post,
       image: result?.secure_url,
       public_id: result?.public_id,
@@ -64,7 +66,7 @@ const createPost = async (req, res) => {
 const getAllPost = async (req, res) => {
   // from chatGPT
   const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 10;
+  const limit = Number(req.query.limit) || 15;
   const skip = (page - 1) * limit;
 
   const posts = await Post.find({})
@@ -82,7 +84,42 @@ const getAllPost = async (req, res) => {
   });
 };
 
+const getSingleUserPosts = async (req, res) => {
+  const userId = req.query.userId;
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 15;
+  const skip = (page - 1) * limit;
+
+  // fetch posts based on the user posts a user is requesting
+  const user = await AgroExpert.findOne({ _id: userId }).select('accountType');
+  if (user.accountType === 'AgroExpert') {
+    const posts = await Post.find({ expert: userId })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+    const totalCount = await Post.countDocuments({ expert: userId });
+    const hasMore = totalCount > page * limit;
+    res.status(StatusCodes.OK).json({
+      posts,
+      hasMore,
+    });
+    return;
+  } else {
+    const posts = await Post.find({ trader: userId })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+    const totalCount = await Post.countDocuments({ trader: userId });
+    const hasMore = totalCount > page * limit;
+    res.status(StatusCodes.OK).json({
+      posts,
+      hasMore,
+    });
+  }
+};
+
 module.exports = {
   createPost,
   getAllPost,
+  getSingleUserPosts,
 };
