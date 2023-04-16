@@ -89,10 +89,10 @@ const getSingleUserPosts = async (req, res) => {
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 15;
   const skip = (page - 1) * limit;
-
   // fetch posts based on the user posts a user is requesting
   const user = await AgroExpert.findOne({ _id: userId }).select('accountType');
-  if (user.accountType === 'AgroExpert') {
+
+  if (user) {
     const posts = await Post.find({ expert: userId })
       .sort({ createdAt: -1 })
       .skip(skip)

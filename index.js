@@ -10,6 +10,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/usersRoutes');
+const agroTraderProductRoutes = require('./routes/agroTraderProductRoutes');
 const connectToDB = require('./database-connection/connectDB');
 const routeNotFoundError = require('./middlewares/routeNotFoundError');
 const errorHandlerMiddleware = require('./middlewares/errorHandler');
@@ -46,6 +47,7 @@ app.get('/', (req, res) => res.send('Hello World!'));
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/post', postRoutes);
+app.use('/api/v1/product', agroTraderProductRoutes);
 
 // errors handler
 app.use(routeNotFoundError);

@@ -21,7 +21,7 @@ const allAgroTraderUsers = async (req, res) => {
 
   const users = await AgroTrader.find({ userVerified: true })
     .select(
-      'coverImage firstName lastName profilePicture state agriculturalProducts accountType'
+      'coverImage firstName lastName profilePicture state agriculturalProducts accountType profileBio'
     )
     .sort({ createdAt: -1 })
     .skip(skip)

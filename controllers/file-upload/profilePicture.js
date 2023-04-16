@@ -46,6 +46,7 @@ const uploadProfilePicture = async (req, res) => {
   // update the user profile picture details to the uploaded picture
   if (req.user.accountType === 'AgroTrader') {
     const user = await AgroTrader.findOne({ _id: userId });
+    // update user post profile picture to the newly updated profile picture
     await Post.updateMany(
       { trader: userId },
       {
@@ -63,6 +64,7 @@ const uploadProfilePicture = async (req, res) => {
       .json({ message: 'Profile picture successfully updated' });
   } else {
     const user = await AgroExpert.findOne({ _id: userId });
+    // update user post profile picture to the newly updated profile picture
     await Post.updateMany(
       { expert: userId },
       {
