@@ -13,15 +13,15 @@ const sendCookiesAlongWithResponse = async (res, user, refreshToken) => {
     expires: new Date(Date.now() + oneHour),
     httpOnly: true,
     signed: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'None',
+    // secure: process.env.NODE_ENV === 'production',
+    // sameSite: 'None',
   });
   res.cookie('refreshToken', refreshTokenJwt, {
     expires: new Date(Date.now() + oneDay * 30),
     httpOnly: true,
     signed: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'None',
+    // secure: process.env.NODE_ENV === 'production',
+    // sameSite: 'None',
   });
 };
 
