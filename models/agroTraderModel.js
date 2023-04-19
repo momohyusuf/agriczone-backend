@@ -32,6 +32,7 @@ const AgroTraderSchema = mongoose.Schema(
     },
     phoneNumber: {
       type: String,
+      trim: true,
       required: ['please provide your phone number', true],
     },
     profilePicture: {
@@ -45,6 +46,7 @@ const AgroTraderSchema = mongoose.Schema(
     },
     email: {
       type: String,
+      trim: true,
       unique: true,
       required: ['Please provide your email address', true],
       match: [
@@ -55,6 +57,7 @@ const AgroTraderSchema = mongoose.Schema(
 
     password: {
       type: String,
+      trim: true,
       required: ['please provide a password', true],
       match: [
         /(?=^.{6,}$)(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^A-Za-z0-9]).*/,

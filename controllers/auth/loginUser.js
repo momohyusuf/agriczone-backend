@@ -8,7 +8,7 @@ const sendCookiesAlongWithResponse = require('../../utils/sendCookiesAlongwithRe
 const generateToken = require('../../utils/generateToken');
 const agroExpertTokenModel = require('../../models/agroExpertTokenModel');
 const agroTraderTokenModel = require('../../models/agroTraderTokenModel');
-
+const validator = require('validator');
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -18,8 +18,12 @@ const loginUser = async (req, res) => {
   }
 
   //   find user
-  const agroExpertUser = await AgroExpert.findOne({ email: email });
-  const agroTraderUser = await AgroTrader.findOne({ email: email });
+  const agroExpertUser = await AgroExpert.findOne({
+    email: validator.trim(email),
+  });
+  const agroTraderUser = await AgroTrader.findOne({
+    email: validator.trim(email),
+  });
 
   // check if user account exist using the email address
   if (!agroExpertUser && !agroTraderUser) {

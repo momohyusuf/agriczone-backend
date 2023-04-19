@@ -33,6 +33,7 @@ const AgroExpertSchema = mongoose.Schema(
 
     phoneNumber: {
       type: String,
+      trim: true,
       required: ['please provide your phone number', true],
     },
     profilePicture: {
@@ -47,6 +48,7 @@ const AgroExpertSchema = mongoose.Schema(
     email: {
       type: String,
       unique: true,
+      trim: true,
       required: ['Please provide your email address', true],
       match: [
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
@@ -56,6 +58,7 @@ const AgroExpertSchema = mongoose.Schema(
 
     password: {
       type: String,
+      trim: true,
       required: ['please provide a password', true],
       match: [
         /(?=^.{6,}$)(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^A-Za-z0-9]).*/,
