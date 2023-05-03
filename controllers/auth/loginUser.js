@@ -66,8 +66,15 @@ const logUserInBasedOnAccountType = async (
   password,
   tokenModel
 ) => {
-  const { _id, firstName, lastName, accountType, profileBio, profilePicture } =
-    user;
+  const {
+    _id,
+    firstName,
+    lastName,
+    accountType,
+    profileBio,
+    profilePicture,
+    isPremiumUser,
+  } = user;
 
   // compare the user password with the hashed password already in the database
   const comparePassword = await bcrypt.compare(password, user.password);
@@ -100,6 +107,7 @@ const logUserInBasedOnAccountType = async (
       accountType,
       profileBio,
       profilePicture,
+      isPremiumUser,
     });
     return;
   }
@@ -124,6 +132,7 @@ const logUserInBasedOnAccountType = async (
     accountType,
     profileBio,
     profilePicture,
+    isPremiumUser,
   });
 };
 

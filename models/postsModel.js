@@ -10,6 +10,9 @@ const PostSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    isPremiumUser: {
+      type: Boolean,
+    },
     accountType: {
       type: String,
       required: true,
@@ -17,6 +20,7 @@ const PostSchema = mongoose.Schema(
     profilePicture: {
       type: String,
     },
+
     post: {
       type: String,
     },

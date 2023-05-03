@@ -5,6 +5,7 @@ const { StatusCodes } = require('http-status-codes');
 const sendEmail = require('../../utils/sendEmail');
 const generateToken = require('../../utils/generateToken');
 const verificationEmailTemplate = require('../../utils/verificationHtml');
+const validator = require('validator');
 
 const registerAgroExpert = async (req, res) => {
   // extract the required values from the req.body for security purpose
@@ -56,7 +57,7 @@ const registerAgroExpert = async (req, res) => {
     phoneNumber,
     email,
     password,
-    field,
+    field: validator.trim(field.toLowerCase()),
     state,
     acceptAgreement,
     verificationToken,

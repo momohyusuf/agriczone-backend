@@ -38,7 +38,7 @@ const AgroTraderSchema = mongoose.Schema(
     profilePicture: {
       image: {
         type: String,
-        defaultValue:
+        default:
           'https://res.cloudinary.com/starkweb/image/upload/v1681074042/agriczone/no-profile-picture_r1k66b.jpg',
       },
       public_id: '',
@@ -65,10 +65,12 @@ const AgroTraderSchema = mongoose.Schema(
       ],
     },
     state: {
+      trim: true,
       type: String,
       required: ['please provided your state', true],
     },
     agriculturalProducts: {
+      trim: true,
       type: [String],
       required: ['Please provide your agricultural Products', true],
     },

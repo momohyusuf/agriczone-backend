@@ -24,14 +24,36 @@ const allAgroExpertUser = async (req, res) => {
   const limit = Number(req.query.limit) || 15;
   const skip = (page - 1) * limit;
 
-  const users = await AgroExpert.find({ userVerified: true })
-    .select(
-      'coverImage field firstName lastName profileBio profilePicture state accountType'
-    )
-    .sort({ createdAt: -1 })
-    .skip(skip)
-    .limit(limit);
+  let queryObject = {
+    userVerified: true,
+  };
+  if (req.query.field !== 'null' && req.query.field !== '') {
+    queryObject.field = req.query.field;
+  }
+  if (req.query.state !== 'null' && req.query.state !== '') {
+    queryObject.state = req.query.state;
+  }
 
+  const users = await AgroExpert.aggregate([
+    { $match: queryObject },
+    { $addFields: { random: { $rand: {} } } },
+    { $sort: { isPremiumUser: -1, random: 1 } },
+    {
+      $project: {
+        coverImage: 1,
+        field: 1,
+        firstName: 1,
+        lastName: 1,
+        profileBio: 1,
+        profilePicture: 1,
+        state: 1,
+        accountType: 1,
+        isPremiumUser: 1,
+      },
+    },
+    { $skip: skip },
+    { $limit: limit },
+  ]);
   const totalCount = await AgroExpert.countDocuments({ userVerified: true });
 
   const hasMore = totalCount > page * limit;

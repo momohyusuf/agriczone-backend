@@ -19,7 +19,20 @@ const allAgroTraderUsers = async (req, res) => {
   const limit = Number(req.query.limit) || 15;
   const skip = (page - 1) * limit;
 
-  const users = await AgroTrader.find({ userVerified: true })
+  let queryObject = {
+    userVerified: true,
+  };
+
+  if (req.query.state !== 'null' && req.query.state !== '') {
+    queryObject.state = req.query.state;
+  }
+  if (req.query.product !== 'null' && req.query.product !== '') {
+    queryObject.agriculturalProducts = {
+      $elemMatch: { $eq: req.query.product.toLowerCase().trim() },
+    };
+  }
+
+  const users = await AgroTrader.find(queryObject)
     .select(
       'coverImage firstName lastName profilePicture state agriculturalProducts accountType profileBio'
     )
@@ -27,10 +40,9 @@ const allAgroTraderUsers = async (req, res) => {
     .skip(skip)
     .limit(limit);
 
-  const totalCount = await AgroTrader.countDocuments({ userVerified: true });
+  const totalCount = await AgroTrader.countDocuments(queryObject);
 
   const hasMore = totalCount > page * limit;
-
   res.status(StatusCodes.OK).json({ users, hasMore });
 };
 
@@ -59,16 +71,15 @@ const updateAgroTraderUserProfileBio = async (req, res) => {
   user.phoneNumber = phoneNumber;
   user.state = state;
   user.profileBio = profileBio;
-  user.agriculturalProducts = agriculturalProducts;
+  user.agriculturalProducts = agriculturalProducts.map((item) =>
+    item.toLowerCase()
+  );
   await user.save();
 
   res.status(StatusCodes.OK).json({ message: 'Account successfully updated' });
 };
 
 // ***********************
-
-// update user Education
-
 // ***********************
 
 module.exports = {

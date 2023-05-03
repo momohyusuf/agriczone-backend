@@ -6,11 +6,11 @@ const {
 } = require('../controllers/agrotrader-product-store/ceateNewProduct');
 const {
   traderStoreItems,
-  deleteItem,
+  deleteProduct,
 } = require('../controllers/agrotrader-product-store/traderStoreItems');
 
 router.post('/create-new-product', authenticateUser, createNewProduct);
 
 router.get('/trader-store-items', traderStoreItems);
-router.route('/:id').delete(authenticateUser, deleteItem);
+router.route('/:id').delete(authenticateUser, deleteProduct);
 module.exports = router;

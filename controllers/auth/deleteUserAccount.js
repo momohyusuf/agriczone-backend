@@ -4,7 +4,7 @@ const AgroTrader = require('../../models/agroTraderModel');
 const traderLoginToken = require('../../models/agroTraderModel');
 const expertLoginToken = require('../../models/agroExpertTokenModel');
 const Posts = require('../../models/postsModel');
-
+const TraderStore = require('../../models/traderStoreModel');
 const deleteUserAccount = async (req, res) => {
   const userId = req.user._id;
 
@@ -14,7 +14,7 @@ const deleteUserAccount = async (req, res) => {
 
   if (req.user.accountType === 'AgroExpert') {
     await AgroExpert.findOneAndDelete({ _id: userId });
-    await expertLoginToken.findOneAndDelete({ user: userId });
+    await expertLoginToken.deleteMany({ user: userId });
     await Posts.deleteMany({ expert: userId });
     res.cookie('accessToken', '', {
       expires: new Date(Date.now()),
@@ -33,8 +33,9 @@ const deleteUserAccount = async (req, res) => {
     return res.status(200).json({ message: `Account deleted` });
   } else {
     await AgroTrader.findOneAndDelete({ _id: userId });
-    await traderLoginToken.findOneAndDelete({ user: userId });
+    await traderLoginToken.deleteMany({ user: userId });
     await Posts.deleteMany({ trader: userId });
+    await TraderStore.deleteMany({ trader: userId });
     res.cookie('accessToken', '', {
       expires: new Date(Date.now()),
       httpOnly: true,

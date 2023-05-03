@@ -2,7 +2,6 @@ const BadRequestError = require('../../errors/badRequestError');
 const Product = require('../../models/traderStoreModel');
 const { StatusCodes } = require('http-status-codes');
 const cloudinary = require('cloudinary').v2;
-const fs = require('fs');
 
 const traderStoreItems = async (req, res) => {
   const userId = req.query.userId;
@@ -22,17 +21,17 @@ const traderStoreItems = async (req, res) => {
   });
 };
 
-const deleteItem = async (req, res) => {
+const deleteProduct = async (req, res) => {
   const { id } = req.params;
   const { public_id } = req.query;
-
+  console.log(public_id);
   await Product.deleteOne({ _id: id });
   await cloudinary.uploader.destroy(public_id);
 
-  res.status(StatusCodes.OK).json({ message: 'item deleted' });
+  res.status(StatusCodes.OK).json({ message: 'Product deleted' });
 };
 
 module.exports = {
   traderStoreItems,
-  deleteItem,
+  deleteProduct,
 };

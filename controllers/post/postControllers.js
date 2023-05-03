@@ -6,7 +6,8 @@ const fs = require('fs');
 
 const createPost = async (req, res) => {
   const post = req.body.text;
-  const { firstName, lastName, profilePicture, accountType } = req.body;
+  const { firstName, lastName, profilePicture, accountType, isPremiumUser } =
+    req.body;
   let newPost;
   let result;
 
@@ -40,6 +41,7 @@ const createPost = async (req, res) => {
     newPost = await Post.create({
       firstName,
       lastName,
+      isPremiumUser,
       profilePicture,
       accountType,
       post: post,
@@ -51,6 +53,7 @@ const createPost = async (req, res) => {
     newPost = await Post.create({
       firstName,
       lastName,
+      isPremiumUser,
       profilePicture,
       accountType,
       post: post,
@@ -117,9 +120,23 @@ const getSingleUserPosts = async (req, res) => {
     });
   }
 };
+const deletePost = async (req, res) => {
+  const { id } = req.params;
+  const { public_id } = req.query;
 
+  await Post.deleteOne({ _id: id });
+
+  if (public_id) {
+    await cloudinary.uploader.destroy(public_id);
+  }
+
+  res.status(StatusCodes.OK).json({
+    message: 'Post deleted',
+  });
+};
 module.exports = {
   createPost,
   getAllPost,
   getSingleUserPosts,
+  deletePost,
 };

@@ -3,6 +3,7 @@ const {
   createPost,
   getAllPost,
   getSingleUserPosts,
+  deletePost,
 } = require('../controllers/post/postControllers');
 const router = express.Router();
 
@@ -11,5 +12,6 @@ const authenticateUser = require('../middlewares/authenticateUser');
 router.post('/create-post', authenticateUser, createPost);
 router.get('/all-posts', getAllPost);
 router.get('/user-posts', getSingleUserPosts);
+router.route('/:id').delete(authenticateUser, deletePost);
 
 module.exports = router;

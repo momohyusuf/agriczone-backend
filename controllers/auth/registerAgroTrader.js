@@ -57,7 +57,9 @@ const registerAgroExpert = async (req, res) => {
     phoneNumber,
     email,
     password,
-    agriculturalProducts,
+    agriculturalProducts: agriculturalProducts.map((item) =>
+      item.toLowerCase()
+    ),
     state,
     acceptAgreement,
     verificationToken,

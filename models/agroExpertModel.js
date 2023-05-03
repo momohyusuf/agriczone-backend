@@ -4,10 +4,12 @@ const bcrypt = require('bcrypt');
 const AgroExpertSchema = mongoose.Schema(
   {
     coverImage: {
+      trim: true,
       type: String,
       default: 'default-cover-image',
     },
     firstName: {
+      trim: true,
       type: String,
       required: ['Provide your fast name', true],
       minLength: 2,
@@ -39,7 +41,7 @@ const AgroExpertSchema = mongoose.Schema(
     profilePicture: {
       image: {
         type: String,
-        defaultValue:
+        default:
           'https://res.cloudinary.com/starkweb/image/upload/v1681074042/agriczone/no-profile-picture_r1k66b.jpg',
       },
       public_id: '',
@@ -66,10 +68,12 @@ const AgroExpertSchema = mongoose.Schema(
       ],
     },
     state: {
+      trim: true,
       type: String,
       required: ['please provided your state', true],
     },
     field: {
+      trim: true,
       type: String,
       required: ['Please provide your field', true],
     },
