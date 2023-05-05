@@ -3,6 +3,7 @@ const Post = require('../../models/postsModel');
 const AgroExpert = require('../../models/agroExpertModel');
 const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
+const BadRequestError = require('../../errors/badRequestError');
 
 const createPost = async (req, res) => {
   const post = req.body.text;
@@ -134,9 +135,21 @@ const deletePost = async (req, res) => {
     message: 'Post deleted',
   });
 };
+
+const singlePost = async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    throw new BadRequestError('Post id is required');
+  }
+  const post = await Post.findOne({ _id: id });
+
+  res.status(StatusCodes.OK).json(post);
+};
 module.exports = {
   createPost,
   getAllPost,
   getSingleUserPosts,
   deletePost,
+  singlePost,
 };
