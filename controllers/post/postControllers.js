@@ -98,9 +98,11 @@ const getSingleUserPosts = async (req, res) => {
 
   if (user) {
     const posts = await Post.find({ expert: userId })
+      .populate('comments')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
+
     const totalCount = await Post.countDocuments({ expert: userId });
     const hasMore = totalCount > page * limit;
     res.status(StatusCodes.OK).json({
@@ -110,6 +112,7 @@ const getSingleUserPosts = async (req, res) => {
     return;
   } else {
     const posts = await Post.find({ trader: userId })
+      .populate('comments')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
@@ -143,7 +146,6 @@ const singlePost = async (req, res) => {
     throw new BadRequestError('Post id is required');
   }
   const post = await Post.findOne({ _id: id });
-
   res.status(StatusCodes.OK).json(post);
 };
 module.exports = {

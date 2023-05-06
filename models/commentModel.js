@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const PostSchema = mongoose.Schema(
+const CommentSchema = mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -20,8 +20,7 @@ const PostSchema = mongoose.Schema(
     profilePicture: {
       type: String,
     },
-
-    post: {
+    comment: {
       type: String,
     },
     public_id: {
@@ -38,14 +37,14 @@ const PostSchema = mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: 'AgroExpert',
     },
-    comments: [{ type: mongoose.Types.ObjectId, ref: 'Comment' }],
+    postId: {
+      type: mongoose.Types.ObjectId,
+      ref: 'Post',
+    },
   },
   {
     timestamps: true,
   }
 );
-// PostSchema.virtual('commentCount').get(function () {
-//   return this.comments.length;
-// });
 
-module.exports = mongoose.model('Post', PostSchema);
+module.exports = mongoose.model('Comment', CommentSchema);
