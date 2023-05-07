@@ -40,7 +40,7 @@ const allAgroTraderUsers = async (req, res) => {
   //   .skip(skip)
   //   .limit(limit);
 
-  const users = await AgroExpert.aggregate([
+  const users = await AgroTrader.aggregate([
     { $match: queryObject },
     { $addFields: { random: { $rand: {} } } },
     { $sort: { isPremiumUser: -1, random: 1 } },
