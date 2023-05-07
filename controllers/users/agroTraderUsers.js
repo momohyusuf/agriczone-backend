@@ -13,6 +13,7 @@ const singleAgroTraderUser = async (req, res) => {
   );
   res.status(StatusCodes.OK).json(user);
 };
+
 const allAgroTraderUsers = async (req, res) => {
   // from chatGPT
   const page = Number(req.query.page) || 1;
