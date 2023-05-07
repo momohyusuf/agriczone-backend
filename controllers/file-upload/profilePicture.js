@@ -5,6 +5,7 @@ const fs = require('fs');
 const AgroTrader = require('../../models/agroTraderModel');
 const AgroExpert = require('../../models/agroExpertModel');
 const Post = require('../../models/postsModel');
+const Comment = require('../../models/commentModel');
 
 const uploadProfilePicture = async (req, res) => {
   const userId = req.user._id;
@@ -53,6 +54,16 @@ const uploadProfilePicture = async (req, res) => {
         $set: { profilePicture: result.secure_url },
       }
     );
+
+    await Comment.updateMany(
+      {
+        trader: userId,
+      },
+      {
+        profilePicture: result.secure_url,
+      }
+    );
+
     user.profilePicture = {
       image: result.secure_url,
       public_id: result.public_id,
@@ -69,6 +80,15 @@ const uploadProfilePicture = async (req, res) => {
       { expert: userId },
       {
         $set: { profilePicture: result.secure_url },
+      }
+    );
+
+    await Comment.updateMany(
+      {
+        expert: userId,
+      },
+      {
+        profilePicture: result.secure_url,
       }
     );
 

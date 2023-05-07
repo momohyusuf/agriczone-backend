@@ -54,7 +54,7 @@ const allAgroExpertUser = async (req, res) => {
     { $skip: skip },
     { $limit: limit },
   ]);
-  const totalCount = await AgroExpert.countDocuments({ userVerified: true });
+  const totalCount = await AgroExpert.countDocuments(queryObject);
 
   const hasMore = totalCount > page * limit;
 

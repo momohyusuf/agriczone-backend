@@ -1,10 +1,12 @@
 const { StatusCodes } = require('http-status-codes');
 const Post = require('../../models/postsModel');
 const AgroExpert = require('../../models/agroExpertModel');
+const Comment = require('../../models/commentModel');
 const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
 const BadRequestError = require('../../errors/badRequestError');
 
+// function to create a new post
 const createPost = async (req, res) => {
   const post = req.body.text;
   const { firstName, lastName, profilePicture, accountType, isPremiumUser } =
@@ -67,6 +69,7 @@ const createPost = async (req, res) => {
   res.status(StatusCodes.CREATED).json(newPost);
 };
 
+// function to get all the posts made by users
 const getAllPost = async (req, res) => {
   // from chatGPT
   const page = Number(req.query.page) || 1;
@@ -88,6 +91,7 @@ const getAllPost = async (req, res) => {
   });
 };
 
+// function to get all the post attached to a single user account
 const getSingleUserPosts = async (req, res) => {
   const userId = req.query.userId;
   const page = Number(req.query.page) || 1;
@@ -124,21 +128,35 @@ const getSingleUserPosts = async (req, res) => {
     });
   }
 };
+
+// a Function to delete post
 const deletePost = async (req, res) => {
   const { id } = req.params;
   const { public_id } = req.query;
 
-  await Post.deleteOne({ _id: id });
+  // step one find the post by id
+  const posts = await Post.findOne({ _id: id });
 
+  // step 2 check if the post has comments
+  // if the post has comments delete all the comments from the data base attached to that post
+  if (posts.comments.length !== 0) {
+    await Comment.deleteMany({ _id: { $in: posts.comments } });
+    await Post.updateOne({ _id: id }, { $set: { comments: [] } });
+  }
+  // step three check if the post has an image and also delete it from cloudinary data base
   if (public_id) {
     await cloudinary.uploader.destroy(public_id);
   }
+
+  //  finally delete the entire post
+  await Post.deleteOne({ _id: id });
 
   res.status(StatusCodes.OK).json({
     message: 'Post deleted',
   });
 };
 
+// function to fetch single post
 const singlePost = async (req, res) => {
   const { id } = req.params;
 

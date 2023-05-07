@@ -7,9 +7,9 @@ const Comment = require('../../models/commentModel');
 const BadRequestError = require('../../errors/badRequestError');
 
 const createComment = async (req, res) => {
-  const { user, postId, comment } = req.body;
+  const { user, postID, comment } = req.body;
 
-  if (!user || !postId || !comment) {
+  if (!user || !postID || !comment) {
     throw new BadRequestError('invalid request');
   }
 
@@ -31,7 +31,7 @@ const createComment = async (req, res) => {
       profilePicture: image,
       accountType,
       comment,
-      postId,
+      postId: postID,
       expert: req.user._id,
     });
   } else {
@@ -42,11 +42,11 @@ const createComment = async (req, res) => {
       profilePicture: image,
       accountType,
       comment,
-      postId,
+      postId: postID,
       trader: req.user._id,
     });
   }
-  const post = await Post.findById({ _id: postId });
+  const post = await Post.findById({ _id: postID });
   post.comments.push(newComment);
   await post.save();
   res.status(StatusCodes.CREATED).json(post);
@@ -54,8 +54,18 @@ const createComment = async (req, res) => {
 
 const getPostComments = async (req, res) => {
   const { id } = req.params;
-  const comments = await Comment.find({ postId: id });
-  res.status(StatusCodes.OK).json(comments);
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 15;
+  const skip = (page - 1) * limit;
+
+  const comments = await Comment.find({ postId: id }).skip(skip).limit(limit);
+
+  const totalCount = await Comment.countDocuments({ postId: id });
+  const hasMore = totalCount > page * limit;
+  res.status(StatusCodes.OK).json({
+    comments,
+    hasMore,
+  });
 };
 
 module.exports = {
