@@ -5,6 +5,7 @@ const traderLoginToken = require('../../models/agroTraderModel');
 const expertLoginToken = require('../../models/agroExpertTokenModel');
 const Posts = require('../../models/postsModel');
 const TraderStore = require('../../models/traderStoreModel');
+const Comment = require('../../models/commentModel');
 const deleteUserAccount = async (req, res) => {
   const userId = req.user._id;
 
@@ -16,6 +17,7 @@ const deleteUserAccount = async (req, res) => {
     await AgroExpert.findOneAndDelete({ _id: userId });
     await expertLoginToken.deleteMany({ user: userId });
     await Posts.deleteMany({ expert: userId });
+    await Comment.deleteMany({ expert: userId });
     res.cookie('accessToken', '', {
       expires: new Date(Date.now()),
       httpOnly: true,
@@ -36,6 +38,7 @@ const deleteUserAccount = async (req, res) => {
     await traderLoginToken.deleteMany({ user: userId });
     await Posts.deleteMany({ trader: userId });
     await TraderStore.deleteMany({ trader: userId });
+    await Comment.deleteMany({ trader: userId });
     res.cookie('accessToken', '', {
       expires: new Date(Date.now()),
       httpOnly: true,
