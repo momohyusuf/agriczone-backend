@@ -11,8 +11,7 @@ const registerAgroExpert = async (req, res) => {
   const origin = req.headers.origin;
 
   const {
-    firstName,
-    lastName,
+    fullName,
     phoneNumber,
     email,
     password,
@@ -24,8 +23,7 @@ const registerAgroExpert = async (req, res) => {
   // check if all the values have been provided
 
   if (
-    !firstName ||
-    !lastName ||
+    !fullName ||
     !email ||
     !password ||
     !phoneNumber ||
@@ -52,8 +50,7 @@ const registerAgroExpert = async (req, res) => {
 
   // create the user account
   await AgroTrader.create({
-    firstName,
-    lastName,
+    fullName,
     phoneNumber,
     email,
     password,
@@ -67,8 +64,7 @@ const registerAgroExpert = async (req, res) => {
 
   // verification email template
   const html = verificationEmailTemplate(
-    firstName,
-    lastName,
+    fullName,
     origin,
     verificationToken,
     email

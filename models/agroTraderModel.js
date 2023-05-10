@@ -7,7 +7,7 @@ const AgroTraderSchema = mongoose.Schema(
       type: String,
       default: 'default-cover-image',
     },
-    firstName: {
+    fullName: {
       type: String,
       required: ['Provide your fast name', true],
       minLength: 2,
@@ -15,13 +15,6 @@ const AgroTraderSchema = mongoose.Schema(
       trim: true,
     },
 
-    lastName: {
-      type: String,
-      required: ['Provide your last name', true],
-      minLength: 2,
-      maxLength: 30,
-      trim: true,
-    },
     isPremiumUser: {
       type: Boolean,
       default: false,

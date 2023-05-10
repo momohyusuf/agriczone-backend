@@ -2,11 +2,7 @@ const mongoose = require('mongoose');
 
 const CommentSchema = mongoose.Schema(
   {
-    firstName: {
-      type: String,
-      required: true,
-    },
-    lastName: {
+    fullName: {
       type: String,
       required: true,
     },

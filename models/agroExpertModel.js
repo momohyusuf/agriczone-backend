@@ -8,7 +8,7 @@ const AgroExpertSchema = mongoose.Schema(
       type: String,
       default: 'default-cover-image',
     },
-    firstName: {
+    fullName: {
       trim: true,
       type: String,
       required: ['Provide your fast name', true],
@@ -21,13 +21,6 @@ const AgroExpertSchema = mongoose.Schema(
       default: false,
     },
 
-    lastName: {
-      type: String,
-      required: ['Provide your last name', true],
-      minLength: 2,
-      maxLength: 30,
-      trim: true,
-    },
     profileBio: {
       type: String,
       default: '',

@@ -1,14 +1,13 @@
 const jwt = require('jsonwebtoken');
 
 const createJwtToken = (
-  { _id, firstName, lastName, email, accountType },
+  { _id, fullName, email, accountType },
   refreshToken
 ) => {
   return jwt.sign(
     {
       _id,
-      firstName,
-      lastName,
+      fullName,
       email,
       accountType,
       refreshToken,

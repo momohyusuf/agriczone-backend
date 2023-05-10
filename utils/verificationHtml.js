@@ -1,6 +1,5 @@
 const verificationEmailTemplate = (
-  firstName,
-  lastName,
+  fullName,
   origin,
   verificationToken,
   email
@@ -34,15 +33,15 @@ const verificationEmailTemplate = (
   </head>
   <body>
     <h1>Verify Your Account</h1>
-    <p>Hello ${firstName},</p>
-    <p>Thank you for creating an account with our service! To complete the registration process, please click the link below to verify your email address:</p>
+    <p>Hello ${fullName},</p>
+    <p>Thank you for creating an account with our! To complete the registration process, please click the link below to verify your email address:</p>
     <p><a href=${origin}/verify/verify-email?token=${verificationToken}&email=${email} target=_blank>click here</a></p>
     <p>If you did not create an account with us, please ignore this email.</p>
     <p>Thank you,</p>
     <img
     src=https://res.cloudinary.com/starkweb/image/upload/v1677051239/agriczone/agric_zone_logo_uagtar.png height=75px width=75px
     />
-    <p>The Agric zone Team</p>
+    <p>The Agric zone team</p>
   </body>
 </html>
 `;

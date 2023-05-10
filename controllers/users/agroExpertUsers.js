@@ -28,7 +28,7 @@ const allAgroExpertUser = async (req, res) => {
     userVerified: true,
   };
   if (req.query.field !== 'null' && req.query.field !== '') {
-    queryObject.field = req.query.field;
+    queryObject.field = req.query.field.toLowerCase();
   }
   if (req.query.state !== 'null' && req.query.state !== '') {
     queryObject.state = req.query.state;
@@ -42,8 +42,7 @@ const allAgroExpertUser = async (req, res) => {
       $project: {
         coverImage: 1,
         field: 1,
-        firstName: 1,
-        lastName: 1,
+        fullName: 1,
         profileBio: 1,
         profilePicture: 1,
         state: 1,

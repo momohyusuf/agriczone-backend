@@ -14,8 +14,7 @@ const createComment = async (req, res) => {
   }
 
   const {
-    firstName,
-    lastName,
+    fullName,
     isPremiumUser,
     profilePicture: { image },
     accountType,
@@ -25,8 +24,7 @@ const createComment = async (req, res) => {
 
   if (req.user.accountType === 'AgroExpert') {
     newComment = await Comment.create({
-      firstName,
-      lastName,
+      fullName,
       isPremiumUser,
       profilePicture: image,
       accountType,
@@ -36,8 +34,7 @@ const createComment = async (req, res) => {
     });
   } else {
     newComment = await Comment.create({
-      firstName,
-      lastName,
+      fullName,
       isPremiumUser,
       profilePicture: image,
       accountType,

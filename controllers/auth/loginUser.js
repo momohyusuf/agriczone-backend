@@ -11,7 +11,7 @@ const agroTraderTokenModel = require('../../models/agroTraderTokenModel');
 const validator = require('validator');
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
-
+  console.log(email);
   //   check if user has provided both email and password
   if (!email || !password) {
     throw new BadRequestError('Please provide your login details');
@@ -68,8 +68,7 @@ const logUserInBasedOnAccountType = async (
 ) => {
   const {
     _id,
-    firstName,
-    lastName,
+    fullName,
     accountType,
     profileBio,
     profilePicture,
@@ -102,8 +101,7 @@ const logUserInBasedOnAccountType = async (
     await sendCookiesAlongWithResponse(res, user, refreshToken);
     res.status(StatusCodes.OK).json({
       _id,
-      firstName,
-      lastName,
+      fullName,
       accountType,
       profileBio,
       profilePicture,
@@ -127,8 +125,7 @@ const logUserInBasedOnAccountType = async (
   await sendCookiesAlongWithResponse(res, user, refreshToken);
   res.status(StatusCodes.OK).json({
     _id,
-    firstName,
-    lastName,
+    fullName,
     accountType,
     profileBio,
     profilePicture,

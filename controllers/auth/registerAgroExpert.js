@@ -12,8 +12,7 @@ const registerAgroExpert = async (req, res) => {
   const origin = req.headers.origin;
 
   const {
-    firstName,
-    lastName,
+    fullName,
     phoneNumber,
     email,
     password,
@@ -23,15 +22,7 @@ const registerAgroExpert = async (req, res) => {
   } = req.body;
 
   // check if all the values have been provided
-  if (
-    !firstName ||
-    !lastName ||
-    !phoneNumber ||
-    !email ||
-    !password ||
-    !field ||
-    !state
-  ) {
+  if (!fullName || !phoneNumber || !email || !password || !field || !state) {
     throw new BadRequestError('Please provide the required values');
   }
 
@@ -52,8 +43,7 @@ const registerAgroExpert = async (req, res) => {
 
   // create the user account
   await AgroExpert.create({
-    firstName,
-    lastName,
+    fullName,
     phoneNumber,
     email,
     password,
@@ -65,8 +55,7 @@ const registerAgroExpert = async (req, res) => {
 
   // Verification email template
   const html = verificationEmailTemplate(
-    firstName,
-    lastName,
+    fullName,
     origin,
     verificationToken,
     email

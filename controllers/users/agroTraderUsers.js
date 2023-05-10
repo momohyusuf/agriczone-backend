@@ -33,14 +33,6 @@ const allAgroTraderUsers = async (req, res) => {
     };
   }
 
-  // const users = await AgroTrader.find(queryObject)
-  //   .select(
-  //     'coverImage firstName lastName profilePicture state agriculturalProducts accountType profileBio'
-  //   )
-  //   .sort({ createdAt: -1 })
-  //   .skip(skip)
-  //   .limit(limit);
-
   const users = await AgroTrader.aggregate([
     { $match: queryObject },
     { $addFields: { random: { $rand: {} } } },
@@ -49,8 +41,7 @@ const allAgroTraderUsers = async (req, res) => {
       $project: {
         coverImage: 1,
         agriculturalProducts: 1,
-        firstName: 1,
-        lastName: 1,
+        fullName: 1,
         profileBio: 1,
         profilePicture: 1,
         state: 1,

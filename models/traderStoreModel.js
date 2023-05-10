@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 const TraderStoreSchema = mongoose.Schema(
   {
+    fullName: {
+      type: String,
+      required: ['product uploader name is required', true],
+    },
     productTitle: {
       type: String,
       required: ['product name is required', true],

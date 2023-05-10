@@ -2,14 +2,11 @@ const mongoose = require('mongoose');
 
 const PostSchema = mongoose.Schema(
   {
-    firstName: {
+    fullName: {
       type: String,
       required: true,
     },
-    lastName: {
-      type: String,
-      required: true,
-    },
+
     isPremiumUser: {
       type: Boolean,
     },

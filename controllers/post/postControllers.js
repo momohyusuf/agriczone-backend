@@ -9,8 +9,7 @@ const BadRequestError = require('../../errors/badRequestError');
 // function to create a new post
 const createPost = async (req, res) => {
   const post = req.body.text;
-  const { firstName, lastName, profilePicture, accountType, isPremiumUser } =
-    req.body;
+  const { fullName, profilePicture, accountType, isPremiumUser } = req.body;
   let newPost;
   let result;
 
@@ -42,8 +41,7 @@ const createPost = async (req, res) => {
   }
   if (req.user.accountType === 'AgroExpert') {
     newPost = await Post.create({
-      firstName,
-      lastName,
+      fullName,
       isPremiumUser,
       profilePicture,
       accountType,
@@ -54,8 +52,7 @@ const createPost = async (req, res) => {
     });
   } else {
     newPost = await Post.create({
-      firstName,
-      lastName,
+      fullName,
       isPremiumUser,
       profilePicture,
       accountType,
