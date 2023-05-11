@@ -66,8 +66,7 @@ const registerAgroExpert = async (req, res) => {
   await sendEmail(email, 'Account Verification', html);
 
   res.status(StatusCodes.CREATED).json({
-    message:
-      'Account successfully created. Check your email to verify your account.',
+    message: 'Sign up successful. Check your email to verify your account.',
   });
 };
 
