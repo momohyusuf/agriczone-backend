@@ -43,7 +43,7 @@ const registerAgroExpert = async (req, res) => {
 
   // create the user account
   await AgroExpert.create({
-    fullName,
+    fullName: fullName.toLowerCase(),
     phoneNumber,
     email,
     password,

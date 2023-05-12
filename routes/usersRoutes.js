@@ -22,6 +22,10 @@ const {
   updateAgroTraderUserProfileBio,
   allAgroTraderUsers,
 } = require('../controllers/users/agroTraderUsers');
+
+// All users
+
+const { filterUsersByName } = require('../controllers/users/filterUsersByName');
 const authenticateUser = require('../middlewares/authenticateUser');
 const router = express.Router();
 
@@ -90,4 +94,7 @@ router.patch(
   authenticateUser,
   uploadProfilePicture
 );
+
+// all users routes
+router.get('/', filterUsersByName);
 module.exports = router;
