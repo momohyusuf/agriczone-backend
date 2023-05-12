@@ -45,7 +45,7 @@ const registerAgroExpert = async (req, res) => {
   await AgroExpert.create({
     fullName: fullName.toLowerCase(),
     phoneNumber,
-    email,
+    email: email.toLowerCase(),
     password,
     field: validator.trim(field.toLowerCase()),
     state,

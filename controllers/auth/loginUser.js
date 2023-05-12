@@ -19,10 +19,10 @@ const loginUser = async (req, res) => {
 
   //   find user
   const agroExpertUser = await AgroExpert.findOne({
-    email: validator.trim(email),
+    email: validator.trim(email.toLowerCase()),
   });
   const agroTraderUser = await AgroTrader.findOne({
-    email: validator.trim(email),
+    email: validator.trim(email.toLowerCase()),
   });
 
   // check if user account exist using the email address

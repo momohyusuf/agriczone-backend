@@ -52,7 +52,7 @@ const registerAgroExpert = async (req, res) => {
   await AgroTrader.create({
     fullName: fullName.toLowerCase(),
     phoneNumber,
-    email,
+    email: email.toLowerCase(),
     password,
     agriculturalProducts: agriculturalProducts.map((item) =>
       item.toLowerCase()
