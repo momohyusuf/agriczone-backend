@@ -5,8 +5,14 @@ const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
 
 const createNewProduct = async (req, res) => {
-  const { price, productDescription, productTitle, productPriceNegotiable } =
-    req.body;
+  const {
+    price,
+    productDescription,
+    productTitle,
+    productPriceNegotiable,
+    fullName,
+    isPremiumUser,
+  } = req.body;
 
   if (!price) {
     throw new BadRequestError('Provide item price');
@@ -48,7 +54,9 @@ const createNewProduct = async (req, res) => {
   fs.unlinkSync(req.files.productImage.tempFilePath);
 
   const product = await Product.create({
-    productTitle,
+    fullName,
+    isPremiumUser,
+    productTitle: productTitle.toLowerCase(),
     productDescription,
     productImage: result?.secure_url,
     public_id: result?.public_id,

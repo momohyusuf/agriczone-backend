@@ -6,9 +6,14 @@ const TraderStoreSchema = mongoose.Schema(
       type: String,
       required: ['product uploader name is required', true],
     },
+    isPremiumUser: {
+      type: Boolean,
+      required: ['product user value is required is required', true],
+    },
     productTitle: {
       type: String,
       required: ['product name is required', true],
+      trim: true,
     },
     productDescription: {
       type: String,
@@ -16,6 +21,7 @@ const TraderStoreSchema = mongoose.Schema(
     price: {
       type: String,
       required: ['price is required', true],
+      trim: true,
     },
     productPriceNegotiable: {
       type: Boolean,
