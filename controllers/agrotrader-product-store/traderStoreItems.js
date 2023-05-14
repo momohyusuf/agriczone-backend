@@ -9,7 +9,6 @@ const traderStoreItems = async (req, res) => {
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 15;
   const skip = (page - 1) * limit;
-  console.log(userId);
   const product = await Product.find({ trader: userId })
     .sort({ createdAt: -1 })
     .skip(skip)
@@ -48,7 +47,6 @@ const filterStoreItemsByTitle = async (req, res) => {
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
   const { public_id } = req.query;
-  console.log(public_id);
   await Product.deleteOne({ _id: id });
   await cloudinary.uploader.destroy(public_id);
 
