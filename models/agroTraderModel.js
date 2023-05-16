@@ -14,7 +14,6 @@ const AgroTraderSchema = mongoose.Schema(
       maxLength: 30,
       trim: true,
     },
-
     isPremiumUser: {
       type: Boolean,
       default: false,

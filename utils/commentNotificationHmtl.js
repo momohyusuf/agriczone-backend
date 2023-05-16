@@ -28,8 +28,8 @@ const commentNotificationEmailTemplate = (fullName, postLink, comment) => {
   </head>
   <body>
     <h1>New Comment</h1>
-    <p>${fullName} just commented you your post,</p>
-    <p>${comment}</p>
+    <p><b>${fullName}</b> just commented you your post:</p>
+    <p>"${comment}"</p>
     <p>${postLink}</p>
    
     <img
