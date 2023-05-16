@@ -19,7 +19,7 @@ const filterUsersByName = async (req, res) => {
   };
 
   if (fullName.trim()) {
-    queryObject.fullName = fullName.trim();
+    queryObject.fullName = fullName.trim().toLowerCase();
   }
   if (state !== 'null' && state !== '') {
     queryObject.state = state;

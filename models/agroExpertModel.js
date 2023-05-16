@@ -20,6 +20,10 @@ const AgroExpertSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    acceptEmailNotification: {
+      type: Boolean,
+      default: false,
+    },
 
     profileBio: {
       type: String,

@@ -68,6 +68,7 @@ const logUserInBasedOnAccountType = async (
   const {
     _id,
     fullName,
+    email,
     accountType,
     profileBio,
     profilePicture,
@@ -105,6 +106,7 @@ const logUserInBasedOnAccountType = async (
       profileBio,
       profilePicture,
       isPremiumUser,
+      email,
     });
     return;
   }
@@ -129,6 +131,7 @@ const logUserInBasedOnAccountType = async (
     profileBio,
     profilePicture,
     isPremiumUser,
+    email,
   });
 };
 
