@@ -56,7 +56,7 @@ const filterUsersByName = async (req, res) => {
       {
         $project: {
           coverImage: 1,
-          field: 1,
+          agriculturalProducts: 1,
           fullName: 1,
           profileBio: 1,
           profilePicture: 1,
