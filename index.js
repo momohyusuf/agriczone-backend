@@ -13,6 +13,7 @@ const userRoutes = require('./routes/usersRoutes');
 const agroTraderProductRoutes = require('./routes/agroTraderProductRoutes');
 const postRoutes = require('./routes/postRoutes');
 const commentRoutes = require('./routes/commentsRoutes');
+const premiumSubscriberRoutes = require('./routes/premiumSubscriberRoutes');
 const connectToDB = require('./database-connection/connectDB');
 const routeNotFoundError = require('./middlewares/routeNotFoundError');
 const errorHandlerMiddleware = require('./middlewares/errorHandler');
@@ -50,6 +51,7 @@ app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/post', postRoutes);
 app.use('/api/v1/product', agroTraderProductRoutes);
 app.use('/api/v1/comment', commentRoutes);
+app.use('/api/v1/premium', premiumSubscriberRoutes);
 
 // errors handler
 app.use(routeNotFoundError);
