@@ -5,14 +5,12 @@ const AgroTrader = require('../../models/agroTraderModel');
 const AgroExpert = require('../../models/agroExpertModel');
 
 const filterUsersByName = async (req, res) => {
-  // from chatGPT
-
   const { fullName, state, userType } = req.query;
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 15;
   const skip = (page - 1) * limit;
 
-  // -----
+  // create a default query object
 
   let queryObject = {
     userVerified: true,
