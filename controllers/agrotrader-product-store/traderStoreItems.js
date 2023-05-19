@@ -29,18 +29,38 @@ const filterStoreItemsByTitle = async (req, res) => {
   const limit = Number(req.query.limit) || 15;
   const skip = (page - 1) * limit;
 
-  const product = await Product.find({
-    productTitle: { $regex: new RegExp(searchTerm, 'i') },
-  })
-    .sort({ createdAt: -1, isPremiumUser: -1 })
-    .skip(skip)
-    .limit(limit);
+  const products = await Product.aggregate([
+    { $match: { productTitle: { $regex: new RegExp(searchTerm, 'i') } } },
+    { $addFields: { random: { $rand: {} } } },
+    { $sort: { isPremiumUser: -1, random: 1 } },
+    {
+      $project: {
+        createdAt: 1,
+        fullName: 1,
+        isPremiumUser: 1,
+        price: 1,
+        productDescription: 1,
+        productImage: 1,
+        productPriceNegotiable: 1,
+        productTitle: 1,
+        public_id: 1,
+        trader: 1,
+      },
+    },
+    {
+      $skip: skip,
+    },
+    {
+      $limit: limit,
+    },
+  ]);
+
   const totalCount = await Product.countDocuments({
     productTitle: { $regex: new RegExp(searchTerm, 'i') },
   });
   const hasMore = totalCount > page * limit;
   res.status(StatusCodes.OK).json({
-    product,
+    products,
     hasMore,
   });
 };
