@@ -32,10 +32,12 @@ const filterStoreItemsByTitle = async (req, res) => {
   const product = await Product.find({
     productTitle: { $regex: new RegExp(searchTerm, 'i') },
   })
-    .sort({ createdAt: -1 })
+    .sort({ createdAt: -1, isPremiumUser: -1 })
     .skip(skip)
     .limit(limit);
-  const totalCount = await Product.countDocuments({});
+  const totalCount = await Product.countDocuments({
+    productTitle: { $regex: new RegExp(searchTerm, 'i') },
+  });
   const hasMore = totalCount > page * limit;
   res.status(StatusCodes.OK).json({
     product,
