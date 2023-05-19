@@ -9,115 +9,109 @@ const { StatusCodes } = require('http-status-codes');
 const subscribeToPremium = async (req, res) => {
   const { _id, accountType } = req.user;
 
+  //   unsubscribe the user if the user is an agro trader
   if (accountType === 'AgroTrader') {
+    // define your filter
+    const filter = { trader: _id, isPremiumUser: false };
+    // define what property to update
+    const update = { $set: { isPremiumUser: true } };
     await AgroTrader.findOneAndUpdate(
       { _id: _id },
       {
         isPremiumUser: true,
       }
     );
+    // update the posts
+    await Posts.updateMany(filter, update);
+    // update the comments
+    await Comment.updateMany(filter, update);
+    // update the trader store items
+    await TraderStore.updateMany(filter, update);
 
-    await Posts.findOneAndUpdate(
-      { trader: _id },
-      {
-        isPremiumUser: true,
-      }
-    );
+    res
+      .status(StatusCodes.CREATED)
+      .json({ message: 'Successful subscribed agro trader' });
+    return;
+  }
 
-    await Comment.findOneAndUpdate(
-      { trader: _id },
-      {
-        isPremiumUser: true,
-      }
-    );
-    await TraderStore.findOneAndUpdate(
-      { trader: _id },
-      {
-        isPremiumUser: true,
-      }
-    );
-  } else {
+  //  *****
+  // ******
+  // check if the user is an agro expert
+  if (accountType === 'AgroExpert') {
+    // define your filter
+    const filter = { expert: _id, isPremiumUser: false };
+    // define what property to update
+    const update = { $set: { isPremiumUser: true } };
     await AgroExpert.findOneAndUpdate(
       { _id: _id },
       {
         isPremiumUser: true,
       }
     );
+    // update the posts
+    await Posts.updateMany(filter, update);
+    // update the comments
+    await Comment.updateMany(filter, update);
 
-    await Posts.findOneAndUpdate(
-      { expert: _id },
-      {
-        isPremiumUser: true,
-      }
-    );
-
-    await Comment.findOneAndUpdate(
-      { expert: _id },
-      {
-        isPremiumUser: true,
-      }
-    );
+    res
+      .status(StatusCodes.CREATED)
+      .json({ message: 'Successful subscribed agro expert' });
   }
-
-  res
-    .status(StatusCodes.CREATED)
-    .json({ message: 'Successfully unsubscribed' });
 };
 
+// *****************
+// unsubscribe a user from premium
 const unSubscribeToPremium = async (req, res) => {
   const { _id, accountType } = req.user;
 
+  //   unsubscribe the user if the user is an agro trader
   if (accountType === 'AgroTrader') {
+    // define your filter
+    const filter = { trader: _id, isPremiumUser: true };
+    // define what property to update
+    const update = { $set: { isPremiumUser: false } };
     await AgroTrader.findOneAndUpdate(
       { _id: _id },
       {
         isPremiumUser: false,
       }
     );
+    // update the posts
+    await Posts.updateMany(filter, update);
+    // update the comments
+    await Comment.updateMany(filter, update);
+    // update the trader store items
+    await TraderStore.updateMany(filter, update);
 
-    await Posts.findOneAndUpdate(
-      { trader: _id },
-      {
-        isPremiumUser: false,
-      }
-    );
+    res
+      .status(StatusCodes.CREATED)
+      .json({ message: 'Successful unsubscribed agro trader' });
+    return;
+  }
 
-    await Comment.findOneAndUpdate(
-      { trader: _id },
-      {
-        isPremiumUser: false,
-      }
-    );
-    await TraderStore.findOneAndUpdate(
-      { trader: _id },
-      {
-        isPremiumUser: false,
-      }
-    );
-  } else {
+  //  *****
+  // ******
+  // check if the user is an agro expert
+  if (accountType === 'AgroExpert') {
+    // define your filter
+    const filter = { expert: _id, isPremiumUser: true };
+    // define what property to update
+    const update = { $set: { isPremiumUser: false } };
     await AgroExpert.findOneAndUpdate(
       { _id: _id },
       {
-        isPremiumUser: true,
+        isPremiumUser: false,
       }
     );
+    // update the posts
+    await Posts.updateMany(filter, update);
+    // update the comments
+    await Comment.updateMany(filter, update);
 
-    await Posts.findOneAndUpdate(
-      { expert: _id },
-      {
-        isPremiumUser: true,
-      }
-    );
-
-    await Comment.findOneAndUpdate(
-      { expert: _id },
-      {
-        isPremiumUser: true,
-      }
-    );
+    res
+      .status(StatusCodes.CREATED)
+      .json({ message: 'Successful unsubscribed agro expert' });
   }
-
-  res.status(StatusCodes.CREATED).json({ message: 'Successful unsubscribed' });
 };
 
 module.exports = {
