@@ -27,11 +27,15 @@ const {
 
 const { filterUsersByName } = require('../controllers/users/filterUsersByName');
 const authenticateUser = require('../middlewares/authenticateUser');
+const {
+  featuredAgroExperts,
+} = require('../controllers/users/featuredExpertUsers');
 const router = express.Router();
 
 // agro Expert user
 router.get('/agro-expert', singleAgroExpertUser);
 router.get('/agro-expert-users', allAgroExpertUser);
+router.get('/agro-expert/featured-experts', featuredAgroExperts);
 // update profile
 router.patch(
   '/profile-update/cover-image',
