@@ -5,6 +5,7 @@ const morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 const cloudinary = require('cloudinary').v2;
 const fileUpload = require('express-fileupload');
+const cookiesMiddleware = require('universal-cookie-express');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -28,7 +29,7 @@ cloudinary.config({
 
 // middleware
 app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', 'https://agriczone.vercel.app');
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.setHeader(
     'Access-Control-Allow-Methods',
     'GET, POST, OPTIONS, PUT, PATCH, DELETE'
@@ -40,11 +41,12 @@ app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Credentials', true);
   next();
 });
+
 app.use(express.json());
 app.use(fileUpload({ useTempFiles: true, tempFileDir: '/tmp/' }));
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(morgan('tiny'));
-
+app.use(cookiesMiddleware());
 app.get('/', (req, res) => res.send('Hello World!'));
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/user', userRoutes);
