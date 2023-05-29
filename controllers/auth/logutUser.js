@@ -3,14 +3,12 @@ const logoutUser = async (req, res) => {
   res.cookie('accessToken', '', {
     expires: new Date(Date.now()),
     signed: true,
-    domain: '.agriczone.vercel.app',
     sameSite: 'lax',
   });
   res.cookie('refreshToken', '', {
     expires: new Date(Date.now()),
     signed: true,
     sameSite: 'lax',
-    domain: '.agriczone.vercel.app',
   });
 
   // for old browse

@@ -12,13 +12,11 @@ const sendCookiesAlongWithResponse = async (res, user, refreshToken) => {
   res.cookie('accessToken', accessTokenJwt, {
     expires: new Date(Date.now() + oneHour),
     signed: true,
-    domain: '.agriczone.vercel.app',
     sameSite: 'lax',
   });
   res.cookie('refreshToken', refreshTokenJwt, {
     expires: new Date(Date.now() + oneDay * 30),
     signed: true,
-    domain: '.agriczone.vercel.com',
     sameSite: 'lax',
   });
 };
