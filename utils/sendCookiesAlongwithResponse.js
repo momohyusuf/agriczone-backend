@@ -2,8 +2,8 @@ const createJwtToken = require('./createJwtWebToken');
 
 const sendCookiesAlongWithResponse = async (res, user, refreshToken) => {
   // create jwt
-  const accessTokenJwt = await createJwtToken(user);
-  const refreshTokenJwt = await createJwtToken(user, refreshToken);
+  const accessTokenJwt = createJwtToken(user);
+  const refreshTokenJwt = createJwtToken(user, refreshToken);
 
   // this is to make the access token have a lifespan of just oneHour
   const oneHour = 3600000;
