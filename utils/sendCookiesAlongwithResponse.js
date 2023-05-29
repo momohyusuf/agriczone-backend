@@ -11,17 +11,17 @@ const sendCookiesAlongWithResponse = async (res, user, refreshToken) => {
   const oneDay = 86400000;
   res.cookie('accessToken', accessTokenJwt, {
     expires: new Date(Date.now() + oneHour),
-    // httpOnly: true,
     signed: true,
+    domain: '.agriczone.vercel.app',
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'None',
+    sameSite: 'lax',
   });
   res.cookie('refreshToken', refreshTokenJwt, {
     expires: new Date(Date.now() + oneDay * 30),
-    // httpOnly: true,
     signed: true,
+    domain: '.agriczone.vercel.com',
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'None',
+    sameSite: 'lax',
   });
 };
 
