@@ -103,19 +103,16 @@ const logUserInBasedOnAccountType = async (
     email,
   };
 
-  // create the new jason web token
-  const token = await createJwtToken(userInfo);
-
   // check if the user has already has a token attached to their profile
   const existingToken = await tokenModel.findOne({ user: user._id });
 
   // if the user already a token attached to their profile update the token property on the existing token model
   if (existingToken) {
-    existingToken.token = token;
-    await existingToken.save();
-    res.status(StatusCodes.OK).json({ userInfo, token });
+    res.status(StatusCodes.OK).json({ userInfo, token: existingToken.token });
     return;
   }
+  // create the new jason web token
+  const token = await createJwtToken(userInfo);
 
   // create a new token for first time users logging in
   const userAgent = req.headers['user-agent'];
