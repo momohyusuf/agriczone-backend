@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const AgroTraderTokenSchema = mongoose.Schema(
   {
-    refreshToken: {
+    token: {
       type: String,
       required: true,
     },

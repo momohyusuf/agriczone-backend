@@ -1,18 +1,18 @@
 const jwt = require('jsonwebtoken');
 
-const createJwtToken = (
-  { _id, fullName, email, accountType },
-  refreshToken
-) => {
+const createJwtToken = async (payload) => {
+  const { _id, fullName, email, accountType } = payload;
   return jwt.sign(
     {
       _id,
       fullName,
       email,
       accountType,
-      refreshToken,
     },
-    process.env.JWT_SECRET
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_LIFETIME,
+    }
   );
 };
 

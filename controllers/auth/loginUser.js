@@ -4,11 +4,12 @@ const BadRequestError = require('../../errors/badRequestError');
 const UnAuthenticatedError = require('../../errors/unAuthenticatedError');
 const { StatusCodes } = require('http-status-codes');
 const bcrypt = require('bcrypt');
-const sendCookiesAlongWithResponse = require('../../utils/sendCookiesAlongwithResponse');
 const generateToken = require('../../utils/generateToken');
+const sendTokenWithResponse = require('../../utils/sendTokenWithResponse');
 const agroExpertTokenModel = require('../../models/agroExpertTokenModel');
 const agroTraderTokenModel = require('../../models/agroTraderTokenModel');
 const validator = require('validator');
+const createJwtToken = require('../../utils/createJwtWebToken');
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   //   check if user has provided both email and password
@@ -91,40 +92,8 @@ const logUserInBasedOnAccountType = async (
     return;
   }
 
-  let refreshToken = '';
-  // check if user already created a refresh token
-
-  const existingToken = await tokenModel.findOne({ user: user._id });
-
-  if (existingToken) {
-    refreshToken = existingToken.refreshToken;
-    await sendCookiesAlongWithResponse(res, user, refreshToken);
-    res.status(StatusCodes.OK).json({
-      _id,
-      fullName,
-      accountType,
-      profileBio,
-      profilePicture,
-      isPremiumUser,
-      email,
-    });
-    return;
-  }
-
-  refreshToken = generateToken();
-  const userAgent = req.headers['user-agent'];
-
-  const ipAddress = req.ip;
-
-  await tokenModel.create({
-    refreshToken,
-    userAgent,
-    ipAddress,
-    user: user._id,
-  });
-
-  await sendCookiesAlongWithResponse(res, user, refreshToken);
-  res.status(StatusCodes.OK).json({
+  //  this is the user info to send and also use it to create the user token
+  const userInfo = {
     _id,
     fullName,
     accountType,
@@ -132,7 +101,33 @@ const logUserInBasedOnAccountType = async (
     profilePicture,
     isPremiumUser,
     email,
+  };
+
+  // create the new jason web token
+  const token = await createJwtToken(userInfo);
+
+  // check if the user has already has a token attached to their profile
+  const existingToken = await tokenModel.findOne({ user: user._id });
+
+  // if the user already a token attached to their profile update the token property on the existing token model
+  if (existingToken) {
+    existingToken.token = token;
+    await existingToken.save();
+    res.status(StatusCodes.OK).json({ userInfo, token });
+    return;
+  }
+
+  // create a new token for first time users logging in
+  const userAgent = req.headers['user-agent'];
+  const ipAddress = req.ip;
+  await tokenModel.create({
+    token,
+    userAgent,
+    ipAddress,
+    user: user._id,
   });
+
+  res.status(StatusCodes.OK).json({ userInfo, token });
 };
 
 module.exports = loginUser;
