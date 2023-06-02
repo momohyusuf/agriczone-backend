@@ -37,6 +37,9 @@ const TraderStoreSchema = mongoose.Schema(
       type: String,
       required: ['product picture is required', true],
     },
+    productImageColors: {
+      type: Array,
+    },
     trader: {
       type: mongoose.Types.ObjectId,
       ref: 'AgroTrader',

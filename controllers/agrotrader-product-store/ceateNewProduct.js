@@ -60,6 +60,7 @@ const createNewProduct = async (req, res) => {
     productDescription,
     productImage: result?.secure_url,
     public_id: result?.public_id,
+    productImageColors: result?.colors,
     price,
     productPriceNegotiable,
     trader: req.user._id,

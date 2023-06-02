@@ -30,6 +30,9 @@ const PostSchema = mongoose.Schema(
     image: {
       type: String,
     },
+    colors: {
+      type: Array,
+    },
     trader: {
       type: mongoose.Types.ObjectId,
       ref: 'AgroTrader',
