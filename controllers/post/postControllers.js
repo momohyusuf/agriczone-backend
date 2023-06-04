@@ -51,7 +51,7 @@ const createPost = async (req, res) => {
       image: result?.secure_url,
       public_id: result?.public_id,
       expert: req.user._id,
-      colors: result.colors,
+      colors: result?.colors,
     });
   } else {
     newPost = await Post.create({
@@ -64,7 +64,7 @@ const createPost = async (req, res) => {
       image: result?.secure_url,
       public_id: result?.public_id,
       trader: req.user._id,
-      colors: result.colors,
+      colors: result?.colors,
     });
   }
 
