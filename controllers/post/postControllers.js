@@ -35,7 +35,7 @@ const createPost = async (req, res) => {
       transformation: [
         { fetch_format: 'webp' },
         { gravity: 'auto:face', crop: 'fill' },
-        { height: 400, width: 400, crop: 'fit' },
+        { height: 600, width: 600, crop: 'fit' },
       ],
     });
     fs.unlinkSync(req.files.image.tempFilePath);

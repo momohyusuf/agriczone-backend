@@ -37,7 +37,7 @@ const uploadProfilePicture = async (req, res) => {
     transformation: [
       { fetch_format: 'webp' },
       { gravity: 'auto:face', crop: 'fill' },
-      { height: 350, width: 350, crop: 'fit' },
+      { height: 550, width: 550, crop: 'fit' },
     ],
   });
 
