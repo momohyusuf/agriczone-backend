@@ -4,7 +4,7 @@ const { MailtrapClient } = require('mailtrap');
 const ENDPOINT = 'https://send.api.mailtrap.io/';
 const client = new MailtrapClient({
   endpoint: ENDPOINT,
-  token: process.env.SEND_MAIL_PASSWORD,
+  token: process.env.TOKEN,
 });
 
 // sending email using mailtrap
