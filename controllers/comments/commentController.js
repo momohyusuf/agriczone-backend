@@ -4,7 +4,7 @@ const Comment = require('../../models/commentModel');
 const ObjectId = require('mongodb').ObjectId;
 
 const BadRequestError = require('../../errors/badRequestError');
-const sendEmail = require('../../utils/sendEmail');
+const { sendCommentNotificationEmail } = require('../../utils/sendEmail');
 const commentNotificationEmailTemplate = require('../../utils/commentNotificationHmtl');
 
 // this is for creating a new post
@@ -32,16 +32,18 @@ const createComment = async (req, res) => {
   const name = fullName.replace(/\s/g, '_');
 
   // this is the html that is to be sent to the post author notifying them that a user has commented on their post
-  const html = commentNotificationEmailTemplate(
-    fullName,
-    name,
-    origin,
-    postID,
-    comment
-  );
+  // const html = commentNotificationEmailTemplate(
+  //   fullName,
+  //   name,
+  //   origin,
+  //   postID,
+  //   comment
+  // );
 
   // find the post their about to comment on so you attach it to the comment
   const post = await Post.findById({ _id: postID });
+
+  const link = `${origin}/post/${name}/${postID}`;
 
   // create the comment by including the user that created the comment check if it was an agro expert that created the comment.
   const postAuthorId = new ObjectId(req.user._id);
@@ -59,7 +61,13 @@ const createComment = async (req, res) => {
     // compare the post author against the user who is about to create a new comment
     if (!postAuthorId.equals(post.expert)) {
       // sent an email notification to the post author if it is not the post author that commented on the post
-      await sendEmail(post.authorEmail, `${fullName} (via Agric zone)`, html);
+      // await sendEmail(post.authorEmail, `${fullName} (via Agric zone)`, html);
+      await sendCommentNotificationEmail(
+        post.authorEmail,
+        fullName,
+        comment,
+        link
+      );
     }
   } else {
     newComment = await Comment.create({
@@ -73,7 +81,13 @@ const createComment = async (req, res) => {
     });
     // same this if it is an agro trader that made the comment
     if (!postAuthorId.equals(post.trader)) {
-      await sendEmail(post.authorEmail, `${fullName} (via Agric zone)`, html);
+      // await sendEmail(post.authorEmail, `${fullName} (via Agric zone)`, html);
+      await sendCommentNotificationEmail(
+        post.authorEmail,
+        fullName,
+        comment,
+        link
+      );
     }
   }
 

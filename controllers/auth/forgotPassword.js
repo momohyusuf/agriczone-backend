@@ -3,7 +3,7 @@ const BadRequestError = require('../../errors/badRequestError');
 const AgroExpert = require('../../models/agroExpertModel');
 const AgroTrader = require('../../models/agroTraderModel');
 const generateToken = require('../../utils/generateToken');
-const sendEmail = require('../../utils/sendEmail');
+const { sendPasswordResetEmail } = require('../../utils/sendEmail');
 
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
@@ -16,6 +16,7 @@ const forgotPassword = async (req, res) => {
   const agroExpertUser = await AgroExpert.findOne({ email });
   const agroTraderUser = await AgroTrader.findOne({ email });
 
+  const link = `${origin}/password/password-reset/?token=${passwordToken}&email=${email}`;
   const html = `
   <p>
   Cannot access your agric zone account? use the forgot password link to reset your password <br/>
@@ -36,7 +37,7 @@ const forgotPassword = async (req, res) => {
 
     agroExpertUser.passwordToken = passwordToken;
     // send password reset link if the user exist
-    sendEmail(email, 'Reset Your Account Password', html);
+    sendPasswordResetEmail(email, link);
     await agroExpertUser.save();
     res
       .status(StatusCodes.OK)
@@ -51,9 +52,10 @@ const forgotPassword = async (req, res) => {
       Date.now() + 10 * 60 * 1000
     );
     // send password reset link if the user exist
-    sendEmail(email, 'Reset your Agric Zone password', html);
+
     agroTraderUser.passwordToken = passwordToken;
-    sendEmail(email, 'Reset Your Account Password', html);
+    sendPasswordResetEmail(email, link);
+
     await agroTraderUser.save();
   }
 

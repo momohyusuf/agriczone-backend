@@ -2,7 +2,7 @@ const AgroTrader = require('../../models/agroTraderModel');
 const AgroExpert = require('../../models/agroExpertModel');
 const BadRequestError = require('../../errors/badRequestError');
 const { StatusCodes } = require('http-status-codes');
-const sendEmail = require('../../utils/sendEmail');
+const { sendAccountVerificationEmail } = require('../../utils/sendEmail');
 const generateToken = require('../../utils/generateToken');
 const verificationEmailTemplate = require('../../utils/verificationHtml');
 
@@ -63,16 +63,17 @@ const registerAgroExpert = async (req, res) => {
   });
 
   // verification email template
-  const html = verificationEmailTemplate(
-    fullName,
-    origin,
-    verificationToken,
-    email
-  );
-
+  // const html = verificationEmailTemplate(
+  //   fullName,
+  //   origin,
+  //   verificationToken,
+  //   email
+  // );
+  const link = `${origin}/verify/verify-email?token=${verificationToken}&email=${email}`;
   //
   // send verification email to the registered user email address
-  await sendEmail(email, 'Email Verification', html);
+  // await sendEmail(email, 'Email Verification', html);
+  await sendAccountVerificationEmail(email, link);
 
   res.status(StatusCodes.CREATED).json({
     message:

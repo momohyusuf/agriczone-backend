@@ -2,7 +2,7 @@ const AgroExpert = require('../../models/agroExpertModel');
 const AgroTrader = require('../../models/agroTraderModel');
 const BadRequestError = require('../../errors/badRequestError');
 const { StatusCodes } = require('http-status-codes');
-const sendEmail = require('../../utils/sendEmail');
+const { sendAccountVerificationEmail } = require('../../utils/sendEmail');
 const generateToken = require('../../utils/generateToken');
 const verificationEmailTemplate = require('../../utils/verificationHtml');
 const validator = require('validator');
@@ -53,17 +53,22 @@ const registerAgroExpert = async (req, res) => {
     verificationToken,
   });
 
+  const link = `${origin}/verify/verify-email?token=${verificationToken}&email=${email}`;
+
+  // previously used for nodemailer
   // Verification email template
-  const html = verificationEmailTemplate(
-    fullName,
-    origin,
-    verificationToken,
-    email
-  );
+  // const html = verificationEmailTemplate(
+  //   fullName,
+  //   origin,
+  //   verificationToken,
+  //   email
+  // );
 
   // Send email the verification email address to the registered user email address
 
-  await sendEmail(email, 'Account Verification', html);
+  // await sendEmail(email, 'Account Verification', html);
+
+  await sendAccountVerificationEmail(email, link);
 
   res.status(StatusCodes.CREATED).json({
     message: 'Sign up successful. Check your email to verify your account.',
