@@ -50,6 +50,7 @@ const sendCommentNotificationEmail = async (
   comment,
   link
 ) => {
+  console.log(userEmail, fullName, comment, link);
   const sender = { name: 'Agric zone', email: 'info@agriczone.com' };
 
   try {
@@ -67,6 +68,13 @@ const sendCommentNotificationEmail = async (
     console.log(error);
   }
 };
+
+module.exports = {
+  sendPasswordResetEmail,
+  sendAccountVerificationEmail,
+  sendCommentNotificationEmail,
+};
+
 // sending email using nodemailer
 // const sendEmail = async (userEmail, subject, html) => {
 //   console.log(process.env.SEND_MAIL_USER, process.env.SEND_MAIL_PASSWORD);
@@ -90,9 +98,3 @@ const sendCommentNotificationEmail = async (
 //     console.log(error);
 //   }
 // };
-
-module.exports = {
-  sendPasswordResetEmail,
-  sendAccountVerificationEmail,
-  sendCommentNotificationEmail,
-};

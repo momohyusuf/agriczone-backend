@@ -73,7 +73,7 @@ const registerAgroExpert = async (req, res) => {
   //
   // send verification email to the registered user email address
   // await sendEmail(email, 'Email Verification', html);
-  await sendAccountVerificationEmail(email, link);
+  await sendAccountVerificationEmail(email, fullName, link);
 
   res.status(StatusCodes.CREATED).json({
     message:

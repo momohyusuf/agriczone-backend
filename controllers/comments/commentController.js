@@ -42,6 +42,7 @@ const createComment = async (req, res) => {
 
   // find the post their about to comment on so you attach it to the comment
   const post = await Post.findById({ _id: postID });
+  console.log(post);
 
   const link = `${origin}/post/${name}/${postID}`;
 

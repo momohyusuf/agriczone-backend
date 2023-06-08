@@ -1,5 +1,3 @@
-const BadRequestError = require('../../errors/badRequestError');
-const UnAuthenticatedError = require('../../errors/unAuthenticatedError');
 const { StatusCodes } = require('http-status-codes');
 const AgroTrader = require('../../models/agroTraderModel');
 const AgroExpert = require('../../models/agroExpertModel');
@@ -25,7 +23,12 @@ const filterUsersByName = async (req, res) => {
   // this for Agro experts users
   if (userType === 'Agro expert' || userType === 'null' || userType === '') {
     const users = await AgroExpert.aggregate([
-      { $match: queryObject },
+      {
+        $match: { fullName: { $regex: new RegExp(queryObject.fullName, 'i') } },
+      },
+      {
+        $match: { state: { $regex: new RegExp(queryObject.state, 'i') } },
+      },
       { $addFields: { random: { $rand: {} } } },
       { $sort: { isPremiumUser: -1, random: 1 } },
       {
