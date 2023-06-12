@@ -16,17 +16,17 @@ const forgotPassword = async (req, res) => {
   const agroExpertUser = await AgroExpert.findOne({ email });
   const agroTraderUser = await AgroTrader.findOne({ email });
 
-  const link = `${origin}/password/password-reset/?token=${passwordToken}&email=${email}`;
-  const html = `
-  <p>
-  Cannot access your agric zone account? use the forgot password link to reset your password <br/>
-  <a href=${origin}/password/password-reset/?token=${passwordToken}&email=${email} target=_blank>Click here</a>
-  </p>
-  <p> Password reset link expires in 10 minutes </p>
-  <div>
-  <img src="https://res.cloudinary.com/starkweb/image/upload/v1677051239/agriczone/agric_zone_logo_uagtar.png" height=100px width=100px />
-  </div>
-  `;
+  const link = `${origin}/password_reset?token=${passwordToken}&email=${email}`;
+  // const html = `
+  // <p>
+  // Cannot access your agric zone account? use the forgot password link to reset your password <br/>
+  // <a href=${origin}/password?token=${passwordToken}&email=${email} target=_blank>Click here</a>
+  // </p>
+  // <p> Password reset link expires in 10 minutes </p>
+  // <div>
+  // <img src="https://res.cloudinary.com/starkweb/image/upload/v1677051239/agriczone/agric_zone_logo_uagtar.png" height=100px width=100px />
+  // </div>
+  // `;
 
   // check if the user is registered as an agro expert user
   if (agroExpertUser) {

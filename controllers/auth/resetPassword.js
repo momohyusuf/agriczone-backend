@@ -27,6 +27,10 @@ const resetPassword = async (req, res) => {
     agroExpertUser.passwordToken = null;
     agroExpertUser.passwordTokenExpirationDate = null;
     agroExpertUser.save();
+    res.status(StatusCodes.OK).json({
+      message: `Password Reset Successfully, Proceed To Sign In`,
+    });
+    return;
   }
   // *********************
   // *********************

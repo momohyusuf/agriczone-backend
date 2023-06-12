@@ -53,7 +53,7 @@ const registerAgroExpert = async (req, res) => {
     verificationToken,
   });
 
-  const link = `${origin}/verify/verify-email?token=${verificationToken}&email=${email}`;
+  const link = `${origin}/verify?token=${verificationToken}&email=${email}`;
 
   // previously used for nodemailer
   // Verification email template

@@ -69,7 +69,7 @@ const registerAgroExpert = async (req, res) => {
   //   verificationToken,
   //   email
   // );
-  const link = `${origin}/verify/verify-email?token=${verificationToken}&email=${email}`;
+  const link = `${origin}/verify?token=${verificationToken}&email=${email}`;
   //
   // send verification email to the registered user email address
   // await sendEmail(email, 'Email Verification', html);
