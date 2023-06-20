@@ -10,7 +10,6 @@ const authenticateUser = async (req, res, next) => {
   try {
     // check if token is a valid jason web token
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-
     if (!payload) {
       throw new UnAuthenticatedError('Authentication Invalid');
     }

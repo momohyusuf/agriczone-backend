@@ -103,14 +103,9 @@ const logUserInBasedOnAccountType = async (
     email,
   };
 
-  // check if the user has already has a token attached to their profile
-  const existingToken = await tokenModel.findOne({ user: user._id });
+  //Remove existing token
+  await tokenModel.findOneAndDelete({ user: user._id });
 
-  // if the user already a token attached to their profile update the token property on the existing token model
-  if (existingToken) {
-    res.status(StatusCodes.OK).json({ userInfo, token: existingToken.token });
-    return;
-  }
   // create the new jason web token
   const token = await createJwtToken(userInfo);
 
