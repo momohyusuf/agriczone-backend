@@ -4,8 +4,7 @@ const BadRequestError = require('../../errors/badRequestError');
 const UnAuthenticatedError = require('../../errors/unAuthenticatedError');
 const { StatusCodes } = require('http-status-codes');
 const bcrypt = require('bcrypt');
-const generateToken = require('../../utils/generateToken');
-const sendTokenWithResponse = require('../../utils/sendTokenWithResponse');
+const jwt = require('jsonwebtoken');
 const agroExpertTokenModel = require('../../models/agroExpertTokenModel');
 const agroTraderTokenModel = require('../../models/agroTraderTokenModel');
 const validator = require('validator');
@@ -103,11 +102,20 @@ const logUserInBasedOnAccountType = async (
     email,
   };
 
-  //Remove existing token
-  await tokenModel.findOneAndDelete({ user: user._id });
+  // check if the user already has an existing token
+  const existingToken = await tokenModel.findOne({ user: user._id });
+  console.log(existingToken);
+  // verify that the token is still valid
+  const payload = jwt.verify(existingToken.token, process.env.JWT_SECRET);
+  // check if existing token is still valid
+  if (existingToken && payload) {
+    res.status(StatusCodes.OK).json({ userInfo, token: existingToken.token });
+    return;
+  }
 
   // create the new jason web token
   const token = await createJwtToken(userInfo);
+  console.log(token);
 
   // create a new token for first time users logging in
   const userAgent = req.headers['user-agent'];
