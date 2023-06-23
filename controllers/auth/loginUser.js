@@ -104,18 +104,30 @@ const logUserInBasedOnAccountType = async (
 
   // check if the user already has an existing token
   const existingToken = await tokenModel.findOne({ user: user._id });
+  if (existingToken) {
+    const payload = jwt.verify(
+      existingToken.token,
+      process.env.JWT_SECRET,
+      (err, decoded) => {
+        return decoded;
+      }
+    );
 
-  // verify that the token is still valid
-  const payload = jwt.verify(existingToken.token, process.env.JWT_SECRET);
-  // check if existing token is still valid
-  if (existingToken && payload) {
-    res.status(StatusCodes.OK).json({ userInfo, token: existingToken.token });
+    if (payload) {
+      res.status(StatusCodes.OK).json({ userInfo, token: existingToken.token });
+      return;
+    }
+
+    const token = await createJwtToken(userInfo);
+    existingToken.token = token;
+    await existingToken.save();
+    res.status(StatusCodes.OK).json({ userInfo, token });
     return;
   }
 
-  // create the new jason web token
+  // this code starting from here is run if the user is logging to their account for the first time
+  // create a login token for the user
   const token = await createJwtToken(userInfo);
-
   // create a new token for first time users logging in
   const userAgent = req.headers['user-agent'];
   const ipAddress = req.ip;
