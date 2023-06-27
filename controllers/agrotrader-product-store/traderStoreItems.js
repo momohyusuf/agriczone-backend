@@ -91,6 +91,7 @@ const getSimilarProduct = async (req, res) => {
     },
     { $addFields: { random: { $rand: {} } } },
     { $limit: 10 },
+    { $sort: { random: 1 } }, // Sort by the 'random' field in ascending order
   ]);
   res.status(StatusCodes.OK).json({ products });
 };
