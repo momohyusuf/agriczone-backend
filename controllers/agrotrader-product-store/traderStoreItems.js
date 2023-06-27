@@ -85,9 +85,18 @@ const getSingleProductById = async (req, res) => {
 
 const getSimilarProduct = async (req, res) => {
   const { similarProductText } = req.query;
+  if (similarProductText == '') {
+    res.status(StatusCodes.OK).json({ products: [] });
+    return;
+  }
+  function getRandomItem() {
+    const items = similarProductText.split(' ').slice(0, 2);
+    const randomIndex = Math.floor(Math.random() * items.length);
+    return items[randomIndex];
+  }
   const products = await Product.aggregate([
     {
-      $match: { productTitle: { $regex: new RegExp(similarProductText, 'i') } },
+      $match: { productTitle: { $regex: new RegExp(getRandomItem(), 'i') } },
     },
     { $addFields: { random: { $rand: {} } } },
     { $limit: 10 },
