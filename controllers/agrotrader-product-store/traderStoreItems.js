@@ -24,7 +24,6 @@ const traderStoreItems = async (req, res) => {
 // find all the items based on the provided value by a user
 const filterStoreItemsByTitle = async (req, res) => {
   const { searchTerm } = req.query;
-
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 15;
   const skip = (page - 1) * limit;
@@ -71,13 +70,35 @@ const deleteProduct = async (req, res) => {
   const { public_id } = req.query;
   await Product.deleteOne({ _id: id });
   await cloudinary.uploader.destroy(public_id);
-
   res.status(StatusCodes.OK).json({ message: 'Product deleted' });
+};
+
+const getSingleProductById = async (req, res) => {
+  const { id } = req.params;
+  const product = await Product.findOne({ _id: id });
+
+  if (!product) {
+    throw new BadRequestError(`Product with ${id} doest not exist`);
+  }
+  res.status(StatusCodes.OK).json({ product });
+};
+
+const getSimilarProduct = async (req, res) => {
+  const { similarProductText } = req.query;
+  const products = await Product.aggregate([
+    {
+      $match: { productTitle: { $regex: new RegExp(similarProductText, 'i') } },
+    },
+    { $addFields: { random: { $rand: {} } } },
+    { $limit: 10 },
+  ]);
+  res.status(StatusCodes.OK).json({ products });
 };
 
 module.exports = {
   traderStoreItems,
   filterStoreItemsByTitle,
-
+  getSimilarProduct,
+  getSingleProductById,
   deleteProduct,
 };

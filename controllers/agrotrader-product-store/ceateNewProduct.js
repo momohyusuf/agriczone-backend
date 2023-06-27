@@ -12,6 +12,7 @@ const createNewProduct = async (req, res) => {
     productPriceNegotiable,
     fullName,
     isPremiumUser,
+    sellerContact,
   } = req.body;
 
   if (!price) {
@@ -55,6 +56,7 @@ const createNewProduct = async (req, res) => {
 
   const product = await Product.create({
     fullName,
+    sellerContact,
     isPremiumUser,
     productTitle: productTitle.toLowerCase(),
     productDescription,
@@ -65,7 +67,7 @@ const createNewProduct = async (req, res) => {
     productPriceNegotiable,
     trader: req.user._id,
   });
-
+  console.log(product);
   res.status(StatusCodes.CREATED).json({ message: 'Product added to store' });
 };
 

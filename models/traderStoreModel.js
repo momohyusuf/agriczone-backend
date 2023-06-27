@@ -15,6 +15,9 @@ const TraderStoreSchema = mongoose.Schema(
       required: ['product name is required', true],
       trim: true,
     },
+    sellerContact: {
+      type: String,
+    },
     productDescription: {
       type: String,
     },
