@@ -21,6 +21,7 @@ const agroTraderProductRoutes = require('./routes/agroTraderProductRoutes');
 const postRoutes = require('./routes/postRoutes');
 const commentRoutes = require('./routes/commentsRoutes');
 const jobRoutes = require('./routes/jobRoutes');
+const reportRoutes = require('./routes/reportRoutes');
 const premiumSubscriberRoutes = require('./routes/premiumSubscriberRoutes');
 const connectToDB = require('./database-connection/connectDB');
 const routeNotFoundError = require('./middlewares/routeNotFoundError');
@@ -64,6 +65,7 @@ app.use('/api/v1/post', postRoutes);
 app.use('/api/v1/product', agroTraderProductRoutes);
 app.use('/api/v1/comment', commentRoutes);
 app.use('/api/v1/job', jobRoutes);
+app.use('/api/v1/report', reportRoutes);
 app.use('/api/v1/premium', premiumSubscriberRoutes);
 
 // errors handler
