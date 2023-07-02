@@ -90,7 +90,7 @@ const createJob = async (req, res) => {
     },
   });
 
-  res.status(StatusCodes.CREATED).json({ newJob });
+  res.status(StatusCodes.CREATED).json({ message: 'Job successfully posted' });
 };
 
 const getAllJobs = async (req, res) => {
@@ -127,6 +127,7 @@ const getAllJobs = async (req, res) => {
     jobType: { $regex: new RegExp(queryObject.jobType, 'i') },
     workplaceType: { $regex: new RegExp(queryObject.workplaceType, 'i') },
   })
+    .select('-jobDescription')
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit);
