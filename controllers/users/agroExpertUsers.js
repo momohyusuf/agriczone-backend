@@ -108,7 +108,7 @@ const updateUserJobExperience = async (req, res) => {
   if (!user) {
     throw new UnAuthenticatedError('Invalid credentials');
   }
-  user.jobExperience.push({
+  user.jobExperience.unshift({
     jobTitle,
     employmentType,
     companyName,
@@ -146,7 +146,7 @@ const updateEducation = async (req, res) => {
   if (!user) {
     throw new UnAuthenticatedError('Invalid credentials');
   }
-  user.education.push({
+  user.education.unshift({
     school,
     degree,
     fieldOfStudy,
@@ -180,7 +180,7 @@ const updateCertificateAndLicense = async (req, res) => {
   if (!user) {
     throw new UnAuthenticatedError('Invalid credentials');
   }
-  user.certificateAndLicense.push({
+  user.certificateAndLicense.unshift({
     name,
     issuingOrganization,
     credentialUrl,
