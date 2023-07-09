@@ -75,13 +75,20 @@ const updateAgroTraderUserProfileBio = async (req, res) => {
   const userId = req.user._id;
   const user = await AgroTrader.findOne({ _id: userId });
   const {
-    bioData: { phoneNumber, state, profileBio, agriculturalProducts },
+    bioData: {
+      phoneNumber,
+      state,
+      profileBio,
+      agriculturalProducts,
+      physicalAddress,
+    },
   } = req.body;
   //
   if (!user) {
     throw new UnAuthenticatedError('Invalid credentials');
   }
   user.phoneNumber = phoneNumber;
+  user.physicalAddress = physicalAddress;
   user.state = state;
   user.profileBio = profileBio;
   user.agriculturalProducts = agriculturalProducts.map((item) =>

@@ -144,7 +144,6 @@ const getAllJobs = async (req, res) => {
 
 const getSingleJobById = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   const job = await JobPost.findOne({ _id: id });
   res.status(StatusCodes.OK).json({ job });
 };

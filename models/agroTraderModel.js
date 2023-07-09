@@ -22,6 +22,10 @@ const AgroTraderSchema = mongoose.Schema(
       type: String,
       default: '',
     },
+    physicalAddress: {
+      type: String,
+      default: '',
+    },
     phoneNumber: {
       type: String,
       trim: true,
