@@ -68,7 +68,7 @@ const updateUserCoverImage = async (req, res) => {
   }
   user.coverImage = req.body?.coverImage;
   await user.save();
-  res.status(StatusCodes.OK).json({ message: 'Cover photo updated' });
+  res.status(StatusCodes.CREATED).json({ message: 'Cover photo updated' });
 };
 
 //
@@ -87,7 +87,7 @@ const updateUserProfileBio = async (req, res) => {
   user.profileBio = profileBio;
   await user.save();
 
-  res.status(StatusCodes.OK).json({ message: 'Profile bio updated' });
+  res.status(StatusCodes.CREATED).json({ message: 'Profile bio updated' });
 };
 
 //
@@ -118,7 +118,7 @@ const updateUserJobExperience = async (req, res) => {
     jobDescription,
   });
   await user.save();
-  res.status(StatusCodes.OK).json({ message: 'Job experience updated' });
+  res.status(StatusCodes.CREATED).json({ message: 'Job experience updated' });
 };
 
 // delete job experience
@@ -126,12 +126,15 @@ const deleteJobExperience = async (req, res) => {
   const userId = req.user._id;
   const { jobId } = req.query;
 
-  const user = await AgroExpert.updateOne(
+  if (!jobId) {
+    throw new BadRequestError('Job id is required');
+  }
+  await AgroExpert.updateOne(
     { _id: userId }, // Specify the document to update
     { $pull: { jobExperience: { _id: jobId } } }
   );
 
-  res.status(StatusCodes.OK).json({ message: 'Deleted successfully' });
+  res.status(StatusCodes.CREATED).json({ message: 'Deleted successfully' });
 };
 // ***********************
 // ***********************
@@ -154,7 +157,7 @@ const updateEducation = async (req, res) => {
     endDate,
   });
   await user.save();
-  res.status(StatusCodes.OK).json({ message: 'Education updated' });
+  res.status(StatusCodes.CREATED).json({ message: 'Education updated' });
 };
 
 // delete education
@@ -162,12 +165,16 @@ const deleteEducation = async (req, res) => {
   const userId = req.user._id;
   const { educationId } = req.query;
 
-  const user = await AgroExpert.updateOne(
+  if (!educationId) {
+    throw new BadRequestError('Education id is required');
+  }
+
+  await AgroExpert.updateOne(
     { _id: userId }, // Specify the document to update
     { $pull: { education: { _id: educationId } } }
   );
 
-  res.status(StatusCodes.OK).json({ message: 'Deleted successfully' });
+  res.status(StatusCodes.CREATED).json({ message: 'Deleted successfully' });
 };
 // ***********************
 // ***********************
@@ -188,20 +195,23 @@ const updateCertificateAndLicense = async (req, res) => {
   });
   await user.save();
   res
-    .status(StatusCodes.OK)
+    .status(StatusCodes.CREATED)
     .json({ message: 'License and certificate updated' });
 };
 
 const deleteCertificateAndLicenses = async (req, res) => {
   const userId = req.user._id;
   const { certificateAndLicenseId } = req.query;
+  if (!certificateAndLicenseId) {
+    throw new BadRequestError('Certificate and license id is required');
+  }
 
-  const user = await AgroExpert.updateOne(
+  await AgroExpert.updateOne(
     { _id: userId }, // Specify the document to update
     { $pull: { certificateAndLicense: { _id: certificateAndLicenseId } } }
   );
 
-  res.status(StatusCodes.OK).json({ message: 'deleted successfully' });
+  res.status(StatusCodes.CREATED).json({ message: 'deleted successfully' });
 };
 
 module.exports = {

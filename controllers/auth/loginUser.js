@@ -73,6 +73,7 @@ const logUserInBasedOnAccountType = async (
     profileBio,
     profilePicture,
     isPremiumUser,
+    role,
   } = user;
 
   // compare the user password with the hashed password already in the database
@@ -100,6 +101,7 @@ const logUserInBasedOnAccountType = async (
     profilePicture,
     isPremiumUser,
     email,
+    role,
   };
 
   // check if the user already has an existing token

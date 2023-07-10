@@ -31,18 +31,8 @@ const createComment = async (req, res) => {
   // replace the white spaces on the name with an underscore so directing the user to the post link will work.
   const name = fullName.replace(/\s/g, '_');
 
-  // this is the html that is to be sent to the post author notifying them that a user has commented on their post
-  // const html = commentNotificationEmailTemplate(
-  //   fullName,
-  //   name,
-  //   origin,
-  //   postID,
-  //   comment
-  // );
-
   // find the post their about to comment on so you attach it to the comment
   const post = await Post.findById({ _id: postID });
-  console.log(post);
 
   const link = `${origin}/post/${name}/${postID}`;
 

@@ -13,6 +13,10 @@ const traderStoreItems = async (req, res) => {
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit);
+
+  if (!product) {
+    throw new BadRequestError(`No product found for trader with id${userId}`);
+  }
   const totalCount = await Product.countDocuments({ trader: userId });
   const hasMore = totalCount > page * limit;
   res.status(StatusCodes.OK).json({

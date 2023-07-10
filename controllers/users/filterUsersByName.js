@@ -7,7 +7,6 @@ const filterUsersByName = async (req, res) => {
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 15;
   const skip = (page - 1) * limit;
-  console.log(fullName);
 
   // create a default query object
 
@@ -86,7 +85,7 @@ const filterUsersByName = async (req, res) => {
   }
 
   // if user only want to search for a user that is an agro trader
-  if (userType === 'Agro trader') {
+  if (userType === 'Agro business') {
     const users = await AgroTrader.aggregate(agroTraderPipeline);
     const totalCount = await AgroTrader.countDocuments(queryObject);
     const hasMore = totalCount > page * limit;

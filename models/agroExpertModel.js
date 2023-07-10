@@ -27,6 +27,11 @@ const AgroExpertSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    role: {
+      type: String,
+      enum: ['admin', 'user'],
+      default: 'user',
+    },
 
     profileBio: {
       type: String,

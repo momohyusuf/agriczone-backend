@@ -10,6 +10,11 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     customError.message = `Account with ${err.keyValue.email} already exit. Please choose another email address`;
     customError.statuCode = 400;
   }
+
+  if (err.name === 'CastError') {
+    customError.message = `No resource found for id : ${err.value}`;
+    customError.statusCode = 404;
+  }
   return res
     .status(customError.statusCode)
     .json({ message: customError.message });
